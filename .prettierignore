@@ -1,0 +1,15 @@
+# Dependencies and build output
+node_modules
+dist
+.next
+out
+build
+coverage
+
+# Generated
+next-env.d.ts
+package-lock.json
+
+# Local tooling / docs
+.cursor
+.husky
