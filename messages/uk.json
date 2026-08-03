@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "title": "Next Auth Admin",
+    "description": "Standalone Next.js scaffold з i18n і темою"
+  },
+  "header": {
+    "appTitle": "Next Auth Admin",
+    "themeDark": "Темна тема",
+    "themeLight": "Світла тема",
+    "themeSystem": "Як у системі",
+    "localeUk": "UA",
+    "localeEn": "EN",
+    "localeSwitcherLabel": "Мова",
+    "themeModeAriaLabel": "Режим теми"
+  },
+  "home": {
+    "title": "Вітаємо",
+    "subtitle": "Scaffold готовий. Змініть мову та тему в хедері."
+  }
+}
