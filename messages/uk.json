@@ -11,7 +11,12 @@
     "localeUk": "UA",
     "localeEn": "EN",
     "localeSwitcherLabel": "Мова",
-    "themeModeAriaLabel": "Режим теми"
+    "themeModeAriaLabel": "Режим теми",
+    "mobileMenuOpenAriaLabel": "Відкрити меню налаштувань",
+    "mobileMenuCloseLabel": "Закрити",
+    "mobileMenuTitle": "Налаштування",
+    "mobileMenuThemeSection": "Тема",
+    "mobileMenuLocaleSection": "Мова"
   },
   "home": {
     "title": "Вітаємо",
