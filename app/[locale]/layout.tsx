@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@teispace/next-themes';
+import { getTheme } from '@teispace/next-themes/server';
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { notFound } from 'next/navigation';
@@ -11,6 +12,8 @@ import {
 import type { ReactNode } from 'react';
 
 import { routing } from '@/i18n/routing';
+import { getSsrHtmlThemeProps } from '@/shared/lib/get-ssr-html-theme-props';
+import { SystemSsrThemeCleanup } from '@/shared/providers/system-ssr-theme-cleanup';
 import { AppHeader } from '@/widgets/app-header';
 
 import '../globals.css';
@@ -53,9 +56,21 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
+  const initialTheme = await getTheme();
+  const ssrHtml = await getSsrHtmlThemeProps();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={ssrHtml.htmlClassName}
+      data-ssr-theme={ssrHtml.dataSsrTheme}
+      style={
+        ssrHtml.colorScheme !== undefined
+          ? { colorScheme: ssrHtml.colorScheme }
+          : undefined
+      }
+      suppressHydrationWarning
+    >
       <body className={geist.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
@@ -64,7 +79,10 @@ export default async function LocaleLayout({
             enableSystem
             disableTransitionOnChange
             noScript
+            storage="hybrid"
+            initialTheme={initialTheme ?? undefined}
           >
+            <SystemSsrThemeCleanup />
             <div className="flex min-h-dvh flex-col">
               <header className="sticky top-0 z-50">
                 <AppHeader />

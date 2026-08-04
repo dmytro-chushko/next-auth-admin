@@ -15,6 +15,8 @@ import {
 
 type LocaleSwitcherProps = {
   className?: string;
+  fullWidth?: boolean;
+  onLocaleChange?: () => void;
   size?: 'sm' | 'default';
 };
 
@@ -27,6 +29,8 @@ function getLocaleLabel(
 
 export function LocaleSwitcher({
   className,
+  fullWidth = false,
+  onLocaleChange,
   size = 'default',
 }: LocaleSwitcherProps) {
   const pathname = usePathname();
@@ -42,6 +46,7 @@ export function LocaleSwitcher({
     }
 
     router.replace(pathname, { locale: targetLocale, scroll: false });
+    onLocaleChange?.();
   };
 
   return (
@@ -49,11 +54,18 @@ export function LocaleSwitcher({
       <SelectTrigger
         size={size}
         aria-label={t('localeSwitcherLabel')}
-        className={cn('bg-muted/30 w-17 shrink-0 px-2', className)}
+        className={cn(
+          fullWidth ? 'bg-muted/30 w-full' : 'bg-muted/30 w-17 shrink-0 px-2',
+          className,
+        )}
       >
         <SelectValue />
       </SelectTrigger>
-      <SelectContent position="popper" align="end" sideOffset={6}>
+      <SelectContent
+        position="popper"
+        align={fullWidth ? 'start' : 'end'}
+        sideOffset={6}
+      >
         {locales.map((target) => (
           <SelectItem key={target} value={target} lang={target}>
             {getLocaleLabel(target, t)}

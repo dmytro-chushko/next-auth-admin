@@ -11,7 +11,12 @@
     "localeUk": "UA",
     "localeEn": "EN",
     "localeSwitcherLabel": "Language",
-    "themeModeAriaLabel": "Theme mode"
+    "themeModeAriaLabel": "Theme mode",
+    "mobileMenuOpenAriaLabel": "Open settings menu",
+    "mobileMenuCloseLabel": "Close",
+    "mobileMenuTitle": "Settings",
+    "mobileMenuThemeSection": "Theme",
+    "mobileMenuLocaleSection": "Language"
   },
   "home": {
     "title": "Welcome",
