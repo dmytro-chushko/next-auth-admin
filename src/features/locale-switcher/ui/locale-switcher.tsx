@@ -17,7 +17,7 @@ type LocaleSwitcherProps = {
   className?: string;
   fullWidth?: boolean;
   onLocaleChange?: () => void;
-  size?: 'sm' | 'default';
+  size?: 'sm' | 'default' | 'lg';
 };
 
 function getLocaleLabel(
