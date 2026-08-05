@@ -37,7 +37,7 @@ export function HeaderActionsPanel({
     return (
       <div className={cn('flex items-center gap-2', className)}>
         <ThemeModeToggle {...themeLabels} />
-        <LocaleSwitcher size="sm" onLocaleChange={onNavigate} />
+        <LocaleSwitcher size="lg" onLocaleChange={onNavigate} />
       </div>
     );
   }
@@ -60,7 +60,7 @@ export function HeaderActionsPanel({
               {sectionLabels.locale}
             </p>
           ) : null}
-          <LocaleSwitcher fullWidth size="sm" onLocaleChange={onNavigate} />
+          <LocaleSwitcher fullWidth size="lg" onLocaleChange={onNavigate} />
         </div>
       </div>
     </div>

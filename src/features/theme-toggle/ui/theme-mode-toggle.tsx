@@ -27,7 +27,7 @@ export function ThemeModeToggle({
 
   return (
     <div
-      className="bg-muted/30 border-border flex items-center gap-1 rounded-md border p-1"
+      className="bg-muted/30 border-border flex w-fit items-center gap-1 rounded-md border p-1"
       role="group"
       aria-label={ariaLabel}
     >
