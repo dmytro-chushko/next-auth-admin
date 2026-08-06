@@ -2,14 +2,39 @@
 
 Standalone Next.js App Router scaffold (Tailwind v4, shadcn/ui, next-intl EN/UK, theme toggle, Husky, FSD).
 
-## Scripts
+## Local setup
 
 ```bash
+# Requires Node.js 24+
+git clone <repo-url>
+cd next-auth-admin
+npm install
 npm run dev
-npm run precheck
-npm run check-types
-npm run build
 ```
+
+Open [http://localhost:3000](http://localhost:3000) (redirects to `/en` or `/uk`).
+
+Production build locally:
+
+```bash
+npm run build
+npm run start
+```
+
+## Scripts
+
+| Script                 | Description                                    |
+| ---------------------- | ---------------------------------------------- |
+| `npm run dev`          | Start the Next.js development server           |
+| `npm run build`        | Create an optimized production build           |
+| `npm run start`        | Serve the production build                     |
+| `npm run lint`         | Run ESLint (fails on any warning)              |
+| `npm run format`       | Format project files with Prettier             |
+| `npm run format:check` | Check Prettier formatting without writing      |
+| `npm run fix`          | Auto-fix formatting and ESLint issues          |
+| `npm run precheck`     | Run format check and lint (used by pre-commit) |
+| `npm run check-types`  | Type-check with TypeScript (`tsc --noEmit`)    |
+| `npm run prepare`      | Install Husky git hooks after `npm install`    |
 
 ## Stack
 
