@@ -13,3 +13,6 @@ package-lock.json
 # Local tooling / docs
 .cursor
 .husky
+
+# Generated
+src/generated
