@@ -16,10 +16,63 @@
     "mobileMenuCloseLabel": "Закрити",
     "mobileMenuTitle": "Налаштування",
     "mobileMenuThemeSection": "Тема",
-    "mobileMenuLocaleSection": "Мова"
+    "mobileMenuLocaleSection": "Мова",
+    "signIn": "Увійти",
+    "signUp": "Реєстрація",
+    "signOut": "Вийти",
+    "signingOut": "Вихід…"
   },
   "home": {
     "title": "Вітаємо",
-    "subtitle": "Scaffold готовий. Змініть мову та тему в хедері."
+    "subtitle": "Увійдіть, щоб відкрити дашборд, або створіть новий акаунт.",
+    "goDashboard": "Відкрити дашборд",
+    "goLogin": "Увійти",
+    "goRegister": "Створити акаунт"
+  },
+  "dashboard": {
+    "title": "Дашборд",
+    "greeting": "Привіт, {name}",
+    "roleLabel": "Роль",
+    "subtitle": "Ви авторизовані. Сесія зберігається через Better Auth cookie та Postgres.",
+    "backHome": "На головну"
+  },
+  "auth": {
+    "common": {
+      "unknownError": "Щось пішло не так. Спробуйте ще раз."
+    },
+    "validation": {
+      "emailRequired": "Вкажіть email",
+      "emailInvalid": "Введіть коректний email",
+      "passwordRequired": "Вкажіть пароль",
+      "passwordMin": "Пароль має містити щонайменше 8 символів",
+      "nameRequired": "Вкажіть імʼя",
+      "nameMin": "Імʼя має містити щонайменше 2 символи"
+    },
+    "login": {
+      "title": "Вхід",
+      "subtitle": "Використайте email і пароль.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
+      "submit": "Увійти",
+      "submitting": "Входимо…",
+      "noAccount": "Ще немає акаунту?",
+      "signUp": "Створити акаунт"
+    },
+    "register": {
+      "title": "Реєстрація",
+      "subtitle": "Зареєструйтесь з email і паролем.",
+      "nameLabel": "Імʼя",
+      "namePlaceholder": "Ваше імʼя",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "Щонайменше 8 символів",
+      "submit": "Зареєструватися",
+      "submitting": "Створюємо акаунт…",
+      "hasAccount": "Вже маєте акаунт?",
+      "signIn": "Увійти"
+    }
   }
 }
