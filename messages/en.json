@@ -16,10 +16,63 @@
     "mobileMenuCloseLabel": "Close",
     "mobileMenuTitle": "Settings",
     "mobileMenuThemeSection": "Theme",
-    "mobileMenuLocaleSection": "Language"
+    "mobileMenuLocaleSection": "Language",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "signingOut": "Signing out…"
   },
   "home": {
     "title": "Welcome",
-    "subtitle": "Scaffold is ready. Switch language and theme from the header."
+    "subtitle": "Sign in to open the dashboard, or create a new account.",
+    "goDashboard": "Open dashboard",
+    "goLogin": "Sign in",
+    "goRegister": "Create account"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "greeting": "Hello, {name}",
+    "roleLabel": "Role",
+    "subtitle": "You are signed in. Session is backed by Better Auth cookies and Postgres.",
+    "backHome": "Back home"
+  },
+  "auth": {
+    "common": {
+      "unknownError": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "nameRequired": "Name is required",
+      "nameMin": "Name must be at least 2 characters"
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Use your email and password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Your password",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "noAccount": "No account yet?",
+      "signUp": "Create account"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Register with email and password.",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "submit": "Sign up",
+      "submitting": "Creating account…",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
   }
 }
