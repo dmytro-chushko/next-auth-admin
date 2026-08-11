@@ -24,7 +24,7 @@ file_size() {
 
 is_scanner_file() {
   case "$1" in
-    */worm-scan.sh|*/worm-scan.ps1) return 0 ;;
+    */worm-scan.sh|*/worm-scan.ps1|*/malware-procs-check.sh) return 0 ;;
     *) return 1 ;;
   esac
 }
@@ -160,9 +160,20 @@ if [ -e "${HOME}/.node_modules" ]; then
   flag "HOME .node_modules present (possible stage-2 drop): ${HOME}/.node_modules"
 fi
 
+# ── [10] Live malware processes (node -e / C2 loader) ──
+if [ "${WORM_SCAN_SKIP_PROCS:-0}" != 1 ]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  proc_ec=0
+  proc_out="$(bash "${SCRIPT_DIR}/malware-procs-check.sh" 2>&1)" || proc_ec=$?
+  if [ "$proc_ec" -ne 0 ]; then
+    echo "$proc_out" >&2
+    flag "MALWARE PROCESS running (node -e / C2 loader)"
+  fi
+fi
+
 echo "── worm-scan: $ROOT ──"
 if [ "$hits" -eq 0 ]; then
-  echo "  ✓ clean (9 checks: marker, config-line, fake-asset, vscode-autorun, gitignore-dropper, etherhiding, chaindrop, claude-hook, npm-cli-host)"
+  echo "  ✓ clean (10 checks: marker, config-line, fake-asset, vscode-autorun, gitignore-dropper, etherhiding, chaindrop, claude-hook, npm-cli-host, malware-procs)"
   exit 0
 else
   echo "  ✗ $hits signature(s) found — DO NOT run install/dev/build; investigate and clean first."

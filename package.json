@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "security:scan": "bash scripts/security/worm-scan.sh",
+    "security:check": "bash scripts/security/security-check.sh",
     "predev": "npm run security:scan",
     "dev": "next dev",
     "prebuild": "npm run security:scan",
