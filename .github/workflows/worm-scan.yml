@@ -1,0 +1,15 @@
+name: worm-scan
+
+on:
+  pull_request:
+    branches: [main, staging]
+  push:
+    branches: [main, staging]
+
+jobs:
+  worm-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run worm-scan
+        run: bash scripts/security/worm-scan.sh

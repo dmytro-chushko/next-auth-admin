@@ -16,7 +16,7 @@
     "fix": "npm run format && eslint --fix --max-warnings 0",
     "precheck": "npm run format:check && npm run lint",
     "check-types": "tsc --noEmit",
-    "prepare": "husky",
+    "prepare": "bash scripts/security/worm-scan.sh && husky",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
