@@ -58,11 +58,13 @@
       "submit": "Sign in",
       "submitting": "Signing in…",
       "noAccount": "No account yet?",
-      "signUp": "Create account"
+      "signUp": "Create account",
+      "emailNotVerifiedHint": "Your email is not verified yet. Check your inbox or resend the verification email.",
+      "resendVerification": "Go to verification / resend"
     },
     "register": {
       "title": "Create account",
-      "subtitle": "Register with email and password.",
+      "subtitle": "Register with email and password. We will send a verification link.",
       "nameLabel": "Name",
       "namePlaceholder": "Your name",
       "emailLabel": "Email",
@@ -73,6 +75,26 @@
       "submitting": "Creating account…",
       "hasAccount": "Already have an account?",
       "signIn": "Sign in"
+    },
+    "verifyEmail": {
+      "title": "Verify email",
+      "success": "Email verified. You can open the dashboard.",
+      "invalidToken": "This verification link is invalid or has expired.",
+      "missingToken": "Verification details are missing. Request a new email.",
+      "goToLogin": "Go to sign in",
+      "goToDashboard": "Open dashboard",
+      "goToPending": "Resend verification email"
+    },
+    "verifyEmailPending": {
+      "title": "Verify your email",
+      "description": "Check your inbox and click the verification link. If you did not receive it, resend the email below.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "resendButton": "Resend verification email",
+      "resending": "Resending…",
+      "resendSuccess": "If an account exists and still needs verification, we sent a new email.",
+      "resendCooldown": "Try again in {seconds}s",
+      "goToLogin": "Go to sign in"
     }
   }
 }

@@ -4,6 +4,12 @@ import { getLocale } from 'next-intl/server';
 import { redirect } from '@/i18n/navigation';
 import { auth, type Session } from '@/shared/auth/auth';
 
+function verifyEmailPendingHref(email: string): string {
+  const params = new URLSearchParams({ email });
+
+  return `/verify-email/pending?${params.toString()}`;
+}
+
 export async function getSession(): Promise<Session | null> {
   return auth.api.getSession({
     headers: await headers(),
@@ -13,14 +19,22 @@ export async function getSession(): Promise<Session | null> {
 export async function requireUser(): Promise<Session> {
   const session = await getSession();
 
-  if (session) {
-    return session;
+  if (!session) {
+    redirect({ href: '/login', locale: await getLocale() });
+
+    throw new Error('Unreachable: redirect to login');
   }
 
-  redirect({ href: '/login', locale: await getLocale() });
+  if (!session.user.emailVerified) {
+    redirect({
+      href: verifyEmailPendingHref(session.user.email),
+      locale: await getLocale(),
+    });
 
-  // next-intl `redirect` is typed without `never`
-  throw new Error('Unreachable: redirect to login');
+    throw new Error('Unreachable: redirect to verify-email pending');
+  }
+
+  return session;
 }
 
 export async function requireAdmin(): Promise<Session> {
@@ -35,7 +49,10 @@ export async function requireAdmin(): Promise<Session> {
   throw new Error('Unreachable: redirect to dashboard');
 }
 
-/** Redirect signed-in users away from login/register (validates session, not just cookie). */
+/**
+ * Redirect signed-in + verified users away from login/register.
+ * Unverified sessions (edge cases) go to the pending page instead of the app.
+ */
 export async function requireGuest(): Promise<void> {
   const session = await getSession();
 
@@ -43,7 +60,18 @@ export async function requireGuest(): Promise<void> {
     return;
   }
 
-  redirect({ href: '/dashboard', locale: await getLocale() });
+  const locale = await getLocale();
+
+  if (!session.user.emailVerified) {
+    redirect({
+      href: verifyEmailPendingHref(session.user.email),
+      locale,
+    });
+
+    throw new Error('Unreachable: redirect to verify-email pending');
+  }
+
+  redirect({ href: '/dashboard', locale });
 
   throw new Error('Unreachable: redirect to dashboard');
 }

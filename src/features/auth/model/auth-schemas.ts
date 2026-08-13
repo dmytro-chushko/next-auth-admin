@@ -12,7 +12,9 @@ type NameMessages = {
   nameMin: string;
 };
 
-function emailSchema(messages: EmailPasswordMessages) {
+function emailSchema(
+  messages: Pick<EmailPasswordMessages, 'emailRequired' | 'emailInvalid'>,
+) {
   return z
     .string()
     .trim()
@@ -48,7 +50,18 @@ export function createRegisterSchema(
   });
 }
 
+export function createResendVerificationSchema(
+  messages: Pick<EmailPasswordMessages, 'emailRequired' | 'emailInvalid'>,
+) {
+  return z.object({
+    email: emailSchema(messages),
+  });
+}
+
 export type LoginFormValues = z.infer<ReturnType<typeof createLoginSchema>>;
 export type RegisterFormValues = z.infer<
   ReturnType<typeof createRegisterSchema>
+>;
+export type ResendVerificationFormValues = z.infer<
+  ReturnType<typeof createResendVerificationSchema>
 >;
