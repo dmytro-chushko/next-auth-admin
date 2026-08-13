@@ -1,7 +1,12 @@
 /** Path segments without locale prefix, e.g. "/dashboard" not "/en/dashboard". */
 export const PROTECTED_PATHS = ['/dashboard', '/profile', '/admin'] as const;
 
-export const PUBLIC_AUTH_PATHS = ['/login', '/register'] as const;
+export const PUBLIC_AUTH_PATHS = [
+  '/login',
+  '/register',
+  '/verify-email',
+  '/verify-email/pending',
+] as const;
 
 export function stripLocalePrefix(
   pathname: string,

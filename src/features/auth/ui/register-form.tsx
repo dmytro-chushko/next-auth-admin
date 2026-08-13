@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -18,6 +18,7 @@ import {
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
+import { buildVerifyCallbackUrl } from '../lib/build-verify-callback-url';
 import {
   createRegisterSchema,
   type RegisterFormValues,
@@ -27,6 +28,7 @@ export function RegisterForm() {
   const t = useTranslations('auth.register');
   const tCommon = useTranslations('auth.common');
   const tValidation = useTranslations('auth.validation');
+  const locale = useLocale();
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -55,10 +57,12 @@ export function RegisterForm() {
   async function onSubmit(values: RegisterFormValues) {
     setFormError(null);
 
+    const email = values.email.toLowerCase();
     const result = await authClient.signUp.email({
       name: values.name.trim(),
-      email: values.email.toLowerCase(),
+      email,
       password: values.password,
+      callbackURL: buildVerifyCallbackUrl(locale, window.location.origin),
     });
 
     if (result.error) {
@@ -67,7 +71,7 @@ export function RegisterForm() {
       return;
     }
 
-    router.replace('/dashboard');
+    router.replace(`/verify-email/pending?email=${encodeURIComponent(email)}`);
     router.refresh();
   }
 

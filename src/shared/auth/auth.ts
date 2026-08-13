@@ -4,6 +4,7 @@ import { nextCookies } from 'better-auth/next-js';
 import { admin } from 'better-auth/plugins';
 
 import { prisma } from '@/shared/db/prisma';
+import { sendEmail } from '@/shared/email';
 
 /**
  * Better Auth server instance.
@@ -15,6 +16,33 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    // Admin plugin fields must match real sign-up shape for enumeration protection.
+    customSyntheticUser: ({ coreFields, additionalFields, id }) => ({
+      ...coreFields,
+      role: 'user',
+      banned: false,
+      banReason: null,
+      banExpires: null,
+      ...additionalFields,
+      id,
+    }),
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendOnSignIn: true,
+    autoSignInAfterVerification: true,
+    expiresIn: 60 * 60,
+    sendVerificationEmail: async ({ user, url }) => {
+      void sendEmail({
+        to: user.email,
+        subject: 'Verify your email address',
+        text: `Click the link to verify your email: ${url}`,
+        html: `<p>Click the link to verify your email:</p><p><a href="${url}">${url}</a></p>`,
+      }).catch((error: unknown) => {
+        console.error('[auth] failed to send verification email', error);
+      });
+    },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7,

@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -18,14 +18,17 @@ import {
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
+import { buildVerifyCallbackUrl } from '../lib/build-verify-callback-url';
 import { createLoginSchema, type LoginFormValues } from '../model/auth-schemas';
 
 export function LoginForm() {
   const t = useTranslations('auth.login');
   const tCommon = useTranslations('auth.common');
   const tValidation = useTranslations('auth.validation');
+  const locale = useLocale();
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
 
   const schema = useMemo(
     () =>
@@ -48,13 +51,23 @@ export function LoginForm() {
 
   async function onSubmit(values: LoginFormValues) {
     setFormError(null);
+    setUnverifiedEmail(null);
 
+    const email = values.email.toLowerCase();
     const result = await authClient.signIn.email({
-      email: values.email.toLowerCase(),
+      email,
       password: values.password,
+      callbackURL: buildVerifyCallbackUrl(locale, window.location.origin),
     });
 
     if (result.error) {
+      if (result.error.status === 403) {
+        setUnverifiedEmail(email);
+        setFormError(t('emailNotVerifiedHint'));
+
+        return;
+      }
+
       setFormError(result.error.message ?? tCommon('unknownError'));
 
       return;
@@ -118,6 +131,17 @@ export function LoginForm() {
 
         {formError ? (
           <p className="text-destructive text-sm">{formError}</p>
+        ) : null}
+
+        {unverifiedEmail ? (
+          <p className="text-muted-foreground text-sm">
+            <Link
+              href={`/verify-email/pending?email=${encodeURIComponent(unverifiedEmail)}`}
+              className="text-foreground underline underline-offset-4"
+            >
+              {t('resendVerification')}
+            </Link>
+          </p>
         ) : null}
 
         <Button type="submit" disabled={form.formState.isSubmitting}>

@@ -58,11 +58,13 @@
       "submit": "Увійти",
       "submitting": "Входимо…",
       "noAccount": "Ще немає акаунту?",
-      "signUp": "Створити акаунт"
+      "signUp": "Створити акаунт",
+      "emailNotVerifiedHint": "Email ще не підтверджено. Перевірте скриньку або надішліть лист ще раз.",
+      "resendVerification": "Перейти до підтвердження / надіслати знову"
     },
     "register": {
       "title": "Реєстрація",
-      "subtitle": "Зареєструйтесь з email і паролем.",
+      "subtitle": "Зареєструйтесь з email і паролем. Ми надішлемо посилання для підтвердження.",
       "nameLabel": "Імʼя",
       "namePlaceholder": "Ваше імʼя",
       "emailLabel": "Email",
@@ -73,6 +75,26 @@
       "submitting": "Створюємо акаунт…",
       "hasAccount": "Вже маєте акаунт?",
       "signIn": "Увійти"
+    },
+    "verifyEmail": {
+      "title": "Підтвердження email",
+      "success": "Email підтверджено. Можете відкрити дашборд.",
+      "invalidToken": "Це посилання недійсне або вже прострочене.",
+      "missingToken": "Немає даних підтвердження. Запросіть новий лист.",
+      "goToLogin": "Перейти до входу",
+      "goToDashboard": "Відкрити дашборд",
+      "goToPending": "Надіслати лист ще раз"
+    },
+    "verifyEmailPending": {
+      "title": "Підтвердіть email",
+      "description": "Перевірте скриньку й перейдіть за посиланням. Якщо листа немає — надішліть його знову нижче.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "resendButton": "Надіслати лист ще раз",
+      "resending": "Надсилаємо…",
+      "resendSuccess": "Якщо акаунт існує і ще не підтверджений, ми надіслали новий лист.",
+      "resendCooldown": "Спробуйте знову через {seconds} с",
+      "goToLogin": "Перейти до входу"
     }
   }
 }
