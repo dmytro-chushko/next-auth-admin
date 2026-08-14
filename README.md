@@ -1,4 +1,4 @@
-# Next Auth Admin
+# Next Auth Admin.
 
 Standalone Next.js App Router scaffold (Tailwind v4, shadcn/ui, next-intl EN/UK, theme toggle, Husky, FSD).
 
