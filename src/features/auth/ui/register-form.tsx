@@ -1,12 +1,8 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useLocale, useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
-import { Link, useRouter } from '@/i18n/navigation';
-import { authClient } from '@/shared/auth/auth-client';
+import { Link } from '@/i18n/navigation';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -18,67 +14,16 @@ import {
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
-import { buildVerifyCallbackUrl } from '../lib/build-verify-callback-url';
-import {
-  createRegisterSchema,
-  type RegisterFormValues,
-} from '../model/auth-schemas';
+import { useRegisterForm } from '../hooks/use-register-form';
 
 export function RegisterForm() {
   const t = useTranslations('auth.register');
-  const tCommon = useTranslations('auth.common');
-  const tValidation = useTranslations('auth.validation');
-  const locale = useLocale();
-  const router = useRouter();
-  const [formError, setFormError] = useState<string | null>(null);
-
-  const schema = useMemo(
-    () =>
-      createRegisterSchema({
-        emailRequired: tValidation('emailRequired'),
-        emailInvalid: tValidation('emailInvalid'),
-        passwordRequired: tValidation('passwordRequired'),
-        passwordMin: tValidation('passwordMin'),
-        nameRequired: tValidation('nameRequired'),
-        nameMin: tValidation('nameMin'),
-      }),
-    [tValidation],
-  );
-
-  const form = useForm<RegisterFormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
-  });
-
-  async function onSubmit(values: RegisterFormValues) {
-    setFormError(null);
-
-    const email = values.email.toLowerCase();
-    const result = await authClient.signUp.email({
-      name: values.name.trim(),
-      email,
-      password: values.password,
-      callbackURL: buildVerifyCallbackUrl(locale, window.location.origin),
-    });
-
-    if (result.error) {
-      setFormError(result.error.message ?? tCommon('unknownError'));
-
-      return;
-    }
-
-    router.replace(`/verify-email/pending?email=${encodeURIComponent(email)}`);
-    router.refresh();
-  }
+  const { form, handleSubmit, formError, isPending } = useRegisterForm();
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={handleSubmit}
         className="mx-auto flex w-full max-w-sm flex-col gap-4"
         noValidate
       >
@@ -150,8 +95,8 @@ export function RegisterForm() {
           <p className="text-destructive text-sm">{formError}</p>
         ) : null}
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? t('submitting') : t('submit')}
+        <Button type="submit" disabled={isPending}>
+          {isPending ? t('submitting') : t('submit')}
         </Button>
 
         <p className="text-muted-foreground text-sm">

@@ -1,12 +1,8 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useLocale, useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
-import { authClient } from '@/shared/auth/auth-client';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -18,12 +14,7 @@ import {
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
-import { useResendCooldown } from '../hooks/use-resend-cooldown';
-import { buildVerifyCallbackUrl } from '../lib/build-verify-callback-url';
-import {
-  createResendVerificationSchema,
-  type ResendVerificationFormValues,
-} from '../model/auth-schemas';
+import { useVerifyEmailPendingForm } from '../hooks/use-verify-email-pending-form';
 
 type VerifyEmailPendingFormProps = {
   initialEmail: string;
@@ -33,56 +24,20 @@ export function VerifyEmailPendingForm({
   initialEmail,
 }: VerifyEmailPendingFormProps) {
   const t = useTranslations('auth.verifyEmailPending');
-  const tCommon = useTranslations('auth.common');
-  const tValidation = useTranslations('auth.validation');
-  const locale = useLocale();
-  const { isCooldownActive, secondsLeft, startCooldown } = useResendCooldown();
-  const [formError, setFormError] = useState<string | null>(null);
-  const [formSuccess, setFormSuccess] = useState<string | null>(null);
-
-  const schema = useMemo(
-    () =>
-      createResendVerificationSchema({
-        emailRequired: tValidation('emailRequired'),
-        emailInvalid: tValidation('emailInvalid'),
-      }),
-    [tValidation],
-  );
-
-  const form = useForm<ResendVerificationFormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      email: initialEmail,
-    },
-  });
-
-  async function onSubmit(values: ResendVerificationFormValues) {
-    if (isCooldownActive) {
-      return;
-    }
-
-    setFormError(null);
-    setFormSuccess(null);
-
-    const result = await authClient.sendVerificationEmail({
-      email: values.email.toLowerCase(),
-      callbackURL: buildVerifyCallbackUrl(locale, window.location.origin),
-    });
-
-    if (result.error) {
-      setFormError(result.error.message ?? tCommon('unknownError'));
-
-      return;
-    }
-
-    setFormSuccess(t('resendSuccess'));
-    startCooldown();
-  }
+  const {
+    form,
+    handleSubmit,
+    formError,
+    formSuccess,
+    isPending,
+    isCooldownActive,
+    resendCooldownSeconds,
+  } = useVerifyEmailPendingForm(initialEmail);
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={handleSubmit}
         className="mx-auto flex w-full max-w-sm flex-col gap-4"
         noValidate
       >
@@ -120,14 +75,11 @@ export function VerifyEmailPendingForm({
           <p className="text-muted-foreground text-sm">{formSuccess}</p>
         ) : null}
 
-        <Button
-          type="submit"
-          disabled={form.formState.isSubmitting || isCooldownActive}
-        >
-          {form.formState.isSubmitting
+        <Button type="submit" disabled={isPending || isCooldownActive}>
+          {isPending
             ? t('resending')
             : isCooldownActive
-              ? t('resendCooldown', { seconds: secondsLeft })
+              ? t('resendCooldown', { seconds: resendCooldownSeconds })
               : t('resendButton')}
         </Button>
 
