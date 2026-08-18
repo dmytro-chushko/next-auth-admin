@@ -2,7 +2,8 @@
 # Local malware / worm scanner for next-auth-admin.
 #
 # Based on Heliguy PolinRider worm-scan v2, extended for EtherHiding
-# (postcss/C2 loader) and ChainDrop (setup.mjs / IDE hooks).
+# (postcss/C2 loader), ChainDrop (setup.mjs / IDE hooks), build-cache
+# reinfection (polinrider-scan phase 5), and file(1) fake-font checks (phase 7).
 #
 # Usage:   scripts/security/worm-scan.sh [dir]   (default: current dir)
 # Exit:    0 = clean, 1 = signatures found
@@ -51,18 +52,44 @@ done < <(
     \( -name '*.config.*' -o -name '.eslintrc*' -o -name 'babel.config.*' -o -name '.babelrc*' \) -print 2>/dev/null
 )
 
-# ── [3] Fake binary-extension asset (small text + JS) ──
-# Fonts only — avoid scanning every public image in larger trees.
+# ── [3] Fake binary-extension asset (PolinRider phase 7) ──
+# Fonts/binaries disguised as JS — file(1) magic + content heuristics.
 while IFS= read -r f; do
   [ -z "$f" ] && continue
   sz=$(file_size "$f")
-  [ "$sz" -lt 15000 ] || continue
-  if head -c 400 "$f" 2>/dev/null | grep -qE 'function|require|global\[|eval|String\.fromCharCode|_\$_'; then
+  [ "${sz:-0}" -lt 1048576 ] || continue
+
+  file_desc="$(file -b "$f" 2>/dev/null || true)"
+  case "$file_desc" in
+    *ASCII*|*UTF-8*|*JavaScript*|*"JSON data"*|*"Unicode text"*)
+      flag "FAKE-ASSET (file reports text/script, ${sz}b): $f"
+      continue
+      ;;
+  esac
+
+  case "$f" in
+    *.woff2)
+      magic="$(head -c 4 "$f" 2>/dev/null || true)"
+      if [ "$magic" != "wOF2" ]; then
+        flag "FAKE-ASSET (woff2 missing wOF2 magic, ${sz}b): $f"
+        continue
+      fi
+      ;;
+    *.woff)
+      if ! head -c 4 "$f" 2>/dev/null | grep -q 'wOFF'; then
+        flag "FAKE-ASSET (woff missing wOFF magic, ${sz}b): $f"
+        continue
+      fi
+      ;;
+  esac
+
+  if [ "${sz:-0}" -lt 15000 ] && head -c 400 "$f" 2>/dev/null | grep -qE 'function|require|global\[|eval|String\.fromCharCode|_\$_|rmcej%otb%|global\['\''_V'\''\]'; then
     flag "FAKE-ASSET (binary ext, JS content, ${sz}b): $f"
   fi
 done < <(
   find "$ROOT" \( "${PRUNE[@]}" \) -prune -o -type f \
-    \( -name '*.woff2' -o -name '*.woff' -o -name '*.ttf' -o -name '*.otf' -o -name '*.eot' \) -print 2>/dev/null
+    \( -name '*.woff2' -o -name '*.woff' -o -name '*.ttf' -o -name '*.otf' -o -name '*.eot' \
+       -o -name '*.ico' -o -name '*.dat' -o -name '*.bin' \) -print 2>/dev/null
 )
 
 # ── [4] VS Code / Cursor folderOpen autorun ──
@@ -160,6 +187,22 @@ if [ -e "${HOME}/.node_modules" ]; then
   flag "HOME .node_modules present (possible stage-2 drop): ${HOME}/.node_modules"
 fi
 
+# ── [11] Build-cache reinfection (PolinRider phase 5) ──
+# Compiled bundles in .next/.vite/etc. can re-inject postcss/config after source cleanup.
+CACHE_PAT='global\['\''!'\''\]|_\$_1e42|rmcej%otb%|Cot%3t=shtP|global\['\''_V'\''\]|function MDy|2857687|1111436|spawn\("node",\["-e"|x-payload-b64|eth_getBlockByNumber'
+for cache_name in .next .cache .turbo .parcel-cache .vite .svelte-kit .nuxt .output; do
+  while IFS= read -r cache_dir; do
+    [ -z "$cache_dir" ] && continue
+    case "$cache_dir" in
+      */node_modules/*) continue ;;
+    esac
+    cache_hit="$(grep -rlE "$CACHE_PAT" "$cache_dir" 2>/dev/null | head -1 || true)"
+    if [ -n "$cache_hit" ]; then
+      flag "BUILD-CACHE payload marker in ${cache_dir} (e.g. ${cache_hit#${ROOT}/}) — rm -rf \"${cache_dir}\""
+    fi
+  done < <(find "$ROOT" -type d -name "$cache_name" 2>/dev/null)
+done
+
 # ── [10] Live malware processes (node -e / C2 loader) ──
 if [ "${WORM_SCAN_SKIP_PROCS:-0}" != 1 ]; then
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -173,7 +216,7 @@ fi
 
 echo "── worm-scan: $ROOT ──"
 if [ "$hits" -eq 0 ]; then
-  echo "  ✓ clean (10 checks: marker, config-line, fake-asset, vscode-autorun, gitignore-dropper, etherhiding, chaindrop, claude-hook, npm-cli-host, malware-procs)"
+  echo "  ✓ clean (11 checks: marker, config-line, fake-asset, vscode-autorun, gitignore-dropper, etherhiding, chaindrop, claude-hook, npm-cli-host, build-cache, malware-procs)"
   exit 0
 else
   echo "  ✗ $hits signature(s) found — DO NOT run install/dev/build; investigate and clean first."
