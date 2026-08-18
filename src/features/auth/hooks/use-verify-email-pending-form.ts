@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { authClient } from '@/shared/auth/auth-client';
 
-import { buildVerifyCallbackUrl } from '../lib/build-verify-callback-url';
+import { buildAuthCallbackUrl } from '../lib/build-auth-callback-url';
 import {
   createResendVerificationSchema,
   type ResendVerificationFormValues,
@@ -50,7 +50,11 @@ export function useVerifyEmailPendingForm(initialEmail: string) {
 
     const result = await authClient.sendVerificationEmail({
       email: values.email.toLowerCase(),
-      callbackURL: buildVerifyCallbackUrl(locale, window.location.origin),
+      callbackURL: buildAuthCallbackUrl(
+        locale,
+        window.location.origin,
+        '/verify-email',
+      ),
     });
 
     if (result.error) {
