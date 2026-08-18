@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/shared/auth/auth-client';
 
-import { buildVerifyCallbackUrl } from '../lib/build-verify-callback-url';
+import { buildAuthCallbackUrl } from '../lib/build-auth-callback-url';
 import { createLoginSchema, type LoginFormValues } from '../model/auth-schemas';
 
 export function useLoginForm() {
@@ -47,7 +47,11 @@ export function useLoginForm() {
     const result = await authClient.signIn.email({
       email,
       password: values.password,
-      callbackURL: buildVerifyCallbackUrl(locale, window.location.origin),
+      callbackURL: buildAuthCallbackUrl(
+        locale,
+        window.location.origin,
+        '/dashboard',
+      ),
     });
 
     if (result.error) {
