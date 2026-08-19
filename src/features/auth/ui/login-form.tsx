@@ -18,8 +18,7 @@ import { useLoginForm } from '../hooks/use-login-form';
 
 export function LoginForm() {
   const t = useTranslations('auth.login');
-  const { form, handleSubmit, formError, unverifiedEmail, isPending } =
-    useLoginForm();
+  const { form, handleSubmit, unverifiedEmail, isPending } = useLoginForm();
 
   return (
     <Form {...form}>
@@ -72,10 +71,6 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-
-        {formError ? (
-          <p className="text-destructive text-sm">{formError}</p>
-        ) : null}
 
         {unverifiedEmail ? (
           <p className="text-muted-foreground text-sm">
