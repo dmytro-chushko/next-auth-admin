@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocale, useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/shared/auth/auth-client';
@@ -17,7 +18,6 @@ export function useLoginForm() {
   const tValidation = useTranslations('auth.validation');
   const locale = useLocale();
   const router = useRouter();
-  const [formError, setFormError] = useState<string | null>(null);
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
 
   const schema = useMemo(
@@ -40,7 +40,6 @@ export function useLoginForm() {
   });
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    setFormError(null);
     setUnverifiedEmail(null);
 
     const email = values.email.toLowerCase();
@@ -57,12 +56,12 @@ export function useLoginForm() {
     if (result.error) {
       if (result.error.status === 403) {
         setUnverifiedEmail(email);
-        setFormError(t('emailNotVerifiedHint'));
+        toast.error(t('emailNotVerifiedHint'));
 
         return;
       }
 
-      setFormError(result.error.message ?? tCommon('unknownError'));
+      toast.error(result.error.message ?? tCommon('unknownError'));
 
       return;
     }
@@ -74,7 +73,6 @@ export function useLoginForm() {
   return {
     form,
     handleSubmit,
-    formError,
     unverifiedEmail,
     isPending: form.formState.isSubmitting,
   };

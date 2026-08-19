@@ -2,8 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocale, useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { authClient } from '@/shared/auth/auth-client';
 
@@ -21,8 +22,6 @@ export function useVerifyEmailPendingForm(initialEmail: string) {
   const tValidation = useTranslations('auth.validation');
   const locale = useLocale();
   const { isCooldownActive, secondsLeft, startCooldown } = useResendCooldown();
-  const [formError, setFormError] = useState<string | null>(null);
-  const [formSuccess, setFormSuccess] = useState<string | null>(null);
 
   const schema = useMemo(
     () =>
@@ -45,9 +44,6 @@ export function useVerifyEmailPendingForm(initialEmail: string) {
       return;
     }
 
-    setFormError(null);
-    setFormSuccess(null);
-
     const result = await authClient.sendVerificationEmail({
       email: values.email.toLowerCase(),
       callbackURL: buildAuthCallbackUrl(
@@ -58,20 +54,18 @@ export function useVerifyEmailPendingForm(initialEmail: string) {
     });
 
     if (result.error) {
-      setFormError(result.error.message ?? tCommon('unknownError'));
+      toast.error(result.error.message ?? tCommon('unknownError'));
 
       return;
     }
 
-    setFormSuccess(t('resendSuccess'));
+    toast.success(t('resendSuccess'));
     startCooldown();
   });
 
   return {
     form,
     handleSubmit,
-    formError,
-    formSuccess,
     isPending: form.formState.isSubmitting,
     isCooldownActive,
     resendCooldownSeconds: secondsLeft,

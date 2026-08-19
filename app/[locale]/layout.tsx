@@ -14,6 +14,7 @@ import type { ReactNode } from 'react';
 import { routing } from '@/i18n/routing';
 import { getSsrHtmlThemeProps } from '@/shared/lib/get-ssr-html-theme-props';
 import { SystemSsrThemeCleanup } from '@/shared/providers/system-ssr-theme-cleanup';
+import { Toaster } from '@/shared/ui/sonner';
 import { AppHeader } from '@/widgets/app-header';
 
 import '../globals.css';
@@ -89,6 +90,7 @@ export default async function LocaleLayout({
               </header>
               <main className="flex-1">{children}</main>
             </div>
+            <Toaster richColors closeButton />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
