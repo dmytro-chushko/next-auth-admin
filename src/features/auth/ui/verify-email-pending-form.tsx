@@ -27,8 +27,6 @@ export function VerifyEmailPendingForm({
   const {
     form,
     handleSubmit,
-    formError,
-    formSuccess,
     isPending,
     isCooldownActive,
     resendCooldownSeconds,
@@ -66,14 +64,6 @@ export function VerifyEmailPendingForm({
             </FormItem>
           )}
         />
-
-        {formError ? (
-          <p className="text-destructive text-sm">{formError}</p>
-        ) : null}
-
-        {formSuccess ? (
-          <p className="text-muted-foreground text-sm">{formSuccess}</p>
-        ) : null}
 
         <Button type="submit" disabled={isPending || isCooldownActive}>
           {isPending

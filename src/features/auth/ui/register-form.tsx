@@ -18,7 +18,7 @@ import { useRegisterForm } from '../hooks/use-register-form';
 
 export function RegisterForm() {
   const t = useTranslations('auth.register');
-  const { form, handleSubmit, formError, isPending } = useRegisterForm();
+  const { form, handleSubmit, isPending } = useRegisterForm();
 
   return (
     <Form {...form}>
@@ -90,10 +90,6 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-
-        {formError ? (
-          <p className="text-destructive text-sm">{formError}</p>
-        ) : null}
 
         <Button type="submit" disabled={isPending}>
           {isPending ? t('submitting') : t('submit')}
