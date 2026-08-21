@@ -18,7 +18,7 @@ import { useLoginForm } from '../hooks/use-login-form';
 
 export function LoginForm() {
   const t = useTranslations('auth.login');
-  const { form, handleSubmit, unverifiedEmail, isPending } = useLoginForm();
+  const { form, handleSubmit, isPending } = useLoginForm();
 
   return (
     <Form {...form}>
@@ -71,17 +71,6 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-
-        {unverifiedEmail ? (
-          <p className="text-muted-foreground text-sm">
-            <Link
-              href={`/verify-email/pending?email=${encodeURIComponent(unverifiedEmail)}`}
-              className="text-foreground underline underline-offset-4"
-            >
-              {t('resendVerification')}
-            </Link>
-          </p>
-        ) : null}
 
         <Button type="submit" disabled={isPending}>
           {isPending ? t('submitting') : t('submit')}

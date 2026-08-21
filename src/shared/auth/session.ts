@@ -75,3 +75,19 @@ export async function requireGuest(): Promise<void> {
 
   throw new Error('Unreachable: redirect to dashboard');
 }
+
+/**
+ * Leave verification waiting pages once the signed-in user is verified.
+ * No session / unverified → stay (resend flow remains available).
+ */
+export async function redirectIfEmailVerified(): Promise<void> {
+  const session = await getSession();
+
+  if (!session?.user.emailVerified) {
+    return;
+  }
+
+  redirect({ href: '/dashboard', locale: await getLocale() });
+
+  throw new Error('Unreachable: redirect to dashboard');
+}
