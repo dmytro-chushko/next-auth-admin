@@ -3,8 +3,9 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { Link, useRouter } from '@/i18n/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { authClient } from '@/shared/auth/auth-client';
+import { isVerifyEmailPath } from '@/shared/auth/auth-routes';
 import { Button } from '@/shared/ui/button';
 
 type AuthNavActionsProps = {
@@ -18,6 +19,7 @@ export function AuthNavActions({
 }: AuthNavActionsProps) {
   const t = useTranslations('header');
   const router = useRouter();
+  const pathname = usePathname();
   const [isPending, setIsPending] = useState(false);
 
   async function handleSignOut() {
@@ -29,6 +31,10 @@ export function AuthNavActions({
   }
 
   if (!isAuthenticated) {
+    if (isVerifyEmailPath(pathname)) {
+      return null;
+    }
+
     return (
       <div className="flex items-center gap-2">
         <Button asChild variant="ghost" size="sm">

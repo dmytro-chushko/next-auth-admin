@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 
 import { routing } from '@/i18n/routing';
+import { redirectIfEmailVerified } from '@/shared/auth/session';
 import { VerifyEmailPendingPage } from '@/views/auth';
 
 type PageProps = {
@@ -20,6 +21,7 @@ export default async function LocaleVerifyEmailPendingPage({
   const { email } = await searchParams;
 
   setRequestLocale(locale);
+  await redirectIfEmailVerified();
 
   return <VerifyEmailPendingPage email={email?.trim() ?? ''} />;
 }

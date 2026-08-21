@@ -46,3 +46,10 @@ export function isPublicAuthPath(pathnameWithoutLocale: string): boolean {
       pathnameWithoutLocale.startsWith(`${path}/`),
   );
 }
+
+export function isVerifyEmailPath(pathnameWithoutLocale: string): boolean {
+  return (
+    pathnameWithoutLocale === '/verify-email' ||
+    pathnameWithoutLocale.startsWith('/verify-email/')
+  );
+}
