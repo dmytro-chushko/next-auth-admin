@@ -37,8 +37,8 @@ export const auth = betterAuth({
       void sendEmail({
         to: user.email,
         subject: 'Verify your email address',
-        text: `Click the link to verify your email: ${url}`,
-        html: `<p>Click the link to verify your email:</p><p><a href="${url}">${url}</a></p>`,
+        text: `Click the link to verify your email: ${url}\n\nIf the link doesn’t work, request a new one from the app.`,
+        html: `<p>Click the link to verify your email:</p><p><a href="${url}">${url}</a></p><p>If the link doesn’t work, request a new one from the app.</p>`,
       }).catch((error: unknown) => {
         console.error('[auth] failed to send verification email', error);
       });

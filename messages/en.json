@@ -58,9 +58,7 @@
       "submit": "Sign in",
       "submitting": "Signing in…",
       "noAccount": "No account yet?",
-      "signUp": "Create account",
-      "emailNotVerifiedHint": "Your email is not verified yet. Check your inbox or resend the verification email.",
-      "resendVerification": "Go to verification / resend"
+      "signUp": "Create account"
     },
     "register": {
       "title": "Create account",
