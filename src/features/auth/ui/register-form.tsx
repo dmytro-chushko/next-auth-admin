@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
+import type { OAuthProviderId } from '@/shared/auth/oauth-providers';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -16,7 +17,13 @@ import { Input } from '@/shared/ui/input';
 
 import { useRegisterForm } from '../hooks/use-register-form';
 
-export function RegisterForm() {
+import { OAuthButtons } from './oauth-buttons';
+
+type RegisterFormProps = {
+  oauthProviders: OAuthProviderId[];
+};
+
+export function RegisterForm({ oauthProviders }: RegisterFormProps) {
   const t = useTranslations('auth.register');
   const { form, handleSubmit, isPending } = useRegisterForm();
 
@@ -33,6 +40,8 @@ export function RegisterForm() {
           </h1>
           <p className="text-muted-foreground text-sm">{t('subtitle')}</p>
         </div>
+
+        <OAuthButtons providers={oauthProviders} />
 
         <FormField
           control={form.control}

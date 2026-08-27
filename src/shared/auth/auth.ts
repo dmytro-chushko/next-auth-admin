@@ -6,6 +6,55 @@ import { admin } from 'better-auth/plugins';
 import { prisma } from '@/shared/db/prisma';
 import { sendEmail } from '@/shared/email';
 
+import {
+  CREDENTIAL_PROVIDER_ID,
+  type OAuthProviderId,
+} from './oauth-providers';
+
+function buildSocialProviders(): Partial<
+  Record<
+    OAuthProviderId,
+    {
+      clientId: string;
+      clientSecret: string;
+      scope?: string[];
+    }
+  >
+> {
+  const providers: Partial<
+    Record<
+      OAuthProviderId,
+      {
+        clientId: string;
+        clientSecret: string;
+        scope?: string[];
+      }
+    >
+  > = {};
+
+  const googleClientId = process.env.GOOGLE_CLIENT_ID?.trim();
+  const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim();
+
+  if (googleClientId && googleClientSecret) {
+    providers.google = {
+      clientId: googleClientId,
+      clientSecret: googleClientSecret,
+    };
+  }
+
+  const githubClientId = process.env.GITHUB_CLIENT_ID?.trim();
+  const githubClientSecret = process.env.GITHUB_CLIENT_SECRET?.trim();
+
+  if (githubClientId && githubClientSecret) {
+    providers.github = {
+      clientId: githubClientId,
+      clientSecret: githubClientSecret,
+    };
+  }
+
+  return providers;
+}
+
 /**
  * Better Auth server instance.
  * `nextCookies` must stay last so Set-Cookie works from server actions if used.
@@ -14,6 +63,13 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ['google', 'github', CREDENTIAL_PROVIDER_ID],
+      allowDifferentEmails: false,
+    },
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -48,6 +104,7 @@ export const auth = betterAuth({
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,
   },
+  socialProviders: buildSocialProviders(),
   trustedOrigins: [process.env.BETTER_AUTH_URL ?? 'http://localhost:3000'],
   plugins: [
     admin({
