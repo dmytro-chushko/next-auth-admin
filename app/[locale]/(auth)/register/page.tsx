@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 
 import { routing } from '@/i18n/routing';
+import { getEnabledOAuthProviders } from '@/shared/auth/oauth-providers';
 import { requireGuest } from '@/shared/auth/session';
 import { RegisterPage } from '@/views/auth';
 
@@ -18,5 +19,5 @@ export default async function LocaleRegisterPage({ params }: PageProps) {
   setRequestLocale(locale);
   await requireGuest();
 
-  return <RegisterPage />;
+  return <RegisterPage oauthProviders={getEnabledOAuthProviders()} />;
 }

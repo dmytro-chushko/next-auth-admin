@@ -40,6 +40,12 @@
     "common": {
       "unknownError": "Щось пішло не так. Спробуйте ще раз."
     },
+    "oauth": {
+      "divider": "Або продовжити з",
+      "google": "Продовжити з Google",
+      "github": "Продовжити з GitHub",
+      "signingIn": "Перенаправлення…"
+    },
     "validation": {
       "emailRequired": "Вкажіть email",
       "emailInvalid": "Введіть коректний email",
@@ -72,7 +78,9 @@
       "submit": "Зареєструватися",
       "submitting": "Створюємо акаунт…",
       "hasAccount": "Вже маєте акаунт?",
-      "signIn": "Увійти"
+      "signIn": "Увійти",
+      "oauthAccountExists": "Акаунт з цим email уже є. Увійдіть через Google або GitHub. Пароль можна додати в профілі після входу.",
+      "alreadyRegistered": "Акаунт з цим email уже є. Увійдіть."
     },
     "verifyEmail": {
       "title": "Підтвердження email",

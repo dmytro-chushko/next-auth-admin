@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
+import type { OAuthProviderId } from '@/shared/auth/oauth-providers';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -16,7 +17,13 @@ import { Input } from '@/shared/ui/input';
 
 import { useLoginForm } from '../hooks/use-login-form';
 
-export function LoginForm() {
+import { OAuthButtons } from './oauth-buttons';
+
+type LoginFormProps = {
+  oauthProviders: OAuthProviderId[];
+};
+
+export function LoginForm({ oauthProviders }: LoginFormProps) {
   const t = useTranslations('auth.login');
   const { form, handleSubmit, isPending } = useLoginForm();
 
@@ -33,6 +40,8 @@ export function LoginForm() {
           </h1>
           <p className="text-muted-foreground text-sm">{t('subtitle')}</p>
         </div>
+
+        <OAuthButtons providers={oauthProviders} />
 
         <FormField
           control={form.control}

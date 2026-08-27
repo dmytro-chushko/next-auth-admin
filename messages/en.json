@@ -40,6 +40,12 @@
     "common": {
       "unknownError": "Something went wrong. Please try again."
     },
+    "oauth": {
+      "divider": "Or continue with",
+      "google": "Continue with Google",
+      "github": "Continue with GitHub",
+      "signingIn": "Redirecting…"
+    },
     "validation": {
       "emailRequired": "Email is required",
       "emailInvalid": "Enter a valid email address",
@@ -72,7 +78,9 @@
       "submit": "Sign up",
       "submitting": "Creating account…",
       "hasAccount": "Already have an account?",
-      "signIn": "Sign in"
+      "signIn": "Sign in",
+      "oauthAccountExists": "An account with this email already exists. Sign in with Google or GitHub. You can add a password in profile after signing in.",
+      "alreadyRegistered": "An account with this email already exists. Sign in instead."
     },
     "verifyEmail": {
       "title": "Verify email",
