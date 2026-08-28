@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/shared/auth/auth-client';
 
+import { checkRegisterEligibilityAction } from '../actions/check-register-eligibility';
 import { buildAuthCallbackUrl } from '../lib/build-auth-callback-url';
 import {
   createRegisterSchema,
@@ -16,6 +17,7 @@ import {
 } from '../model/auth-schemas';
 
 export function useRegisterForm() {
+  const t = useTranslations('auth.register');
   const tCommon = useTranslations('auth.common');
   const tValidation = useTranslations('auth.validation');
   const locale = useLocale();
@@ -45,6 +47,28 @@ export function useRegisterForm() {
 
   const handleSubmit = form.handleSubmit(async (values) => {
     const email = values.email.toLowerCase();
+    const eligibility = await checkRegisterEligibilityAction(email);
+
+    if (eligibility === 'oauth_only') {
+      toast.error(t('oauthAccountExists'));
+
+      return;
+    }
+
+    if (eligibility === 'pending_verification') {
+      router.replace(
+        `/verify-email/pending?email=${encodeURIComponent(email)}`,
+      );
+
+      return;
+    }
+
+    if (eligibility === 'already_registered') {
+      toast.error(t('alreadyRegistered'));
+
+      return;
+    }
+
     const result = await authClient.signUp.email({
       name: values.name.trim(),
       email,
