@@ -1,6 +1,5 @@
 'use client';
 
-import { Github } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import type { OAuthProviderId } from '@/shared/auth/oauth-providers';
@@ -54,14 +53,7 @@ export function OAuthButtons({ providers }: OAuthButtonsProps) {
             disabled={isPending}
             onClick={() => signInWithOAuth('github')}
           >
-            {pendingProvider === 'github' ? (
-              signingInLabel
-            ) : (
-              <>
-                <Github className="size-4" />
-                {t('github')}
-              </>
-            )}
+            {pendingProvider === 'github' ? signingInLabel : <>{t('github')}</>}
           </Button>
         ) : null}
       </div>
