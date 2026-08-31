@@ -41,8 +41,6 @@ export function LoginForm({ oauthProviders }: LoginFormProps) {
           <p className="text-muted-foreground text-sm">{t('subtitle')}</p>
         </div>
 
-        <OAuthButtons providers={oauthProviders} />
-
         <FormField
           control={form.control}
           name="email"
@@ -84,6 +82,8 @@ export function LoginForm({ oauthProviders }: LoginFormProps) {
         <Button type="submit" disabled={isPending}>
           {isPending ? t('submitting') : t('submit')}
         </Button>
+
+        <OAuthButtons providers={oauthProviders} />
 
         <p className="text-muted-foreground text-sm">
           {t('noAccount')}{' '}
