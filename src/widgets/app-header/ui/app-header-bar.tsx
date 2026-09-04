@@ -1,6 +1,7 @@
 'use client';
 
 import { AuthNavActions } from '@/features/auth';
+import type { UserMe } from '@/shared/api';
 
 import { HeaderActionsPanel } from './header-actions-panel';
 import { MobileHeaderSheet } from './mobile-header-sheet';
@@ -25,8 +26,7 @@ type SectionLabels = {
 
 type AppHeaderBarProps = {
   title: string;
-  isAuthenticated: boolean;
-  userName?: string | null;
+  initialUser: UserMe | null;
   themeLabels: ThemeLabels;
   mobileMenuLabels: MobileMenuLabels;
   sectionLabels: SectionLabels;
@@ -34,8 +34,7 @@ type AppHeaderBarProps = {
 
 export function AppHeaderBar({
   title,
-  isAuthenticated,
-  userName,
+  initialUser,
   themeLabels,
   mobileMenuLabels,
   sectionLabels,
@@ -46,7 +45,7 @@ export function AppHeaderBar({
         {title}
       </p>
       <div className="flex shrink-0 items-center gap-2">
-        <AuthNavActions isAuthenticated={isAuthenticated} userName={userName} />
+        <AuthNavActions initialUser={initialUser} />
         <HeaderActionsPanel
           layout="row"
           themeLabels={themeLabels}

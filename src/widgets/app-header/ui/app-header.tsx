@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
+import { mapSessionUserToMe } from '@/shared/api/map-session-user';
 import { getSession } from '@/shared/auth/session';
 
 import { AppHeaderBar } from './app-header-bar';
@@ -7,12 +8,12 @@ import { AppHeaderBar } from './app-header-bar';
 export async function AppHeader() {
   const t = await getTranslations('header');
   const session = await getSession();
+  const initialUser = session ? mapSessionUserToMe(session.user) : null;
 
   return (
     <AppHeaderBar
       title={t('appTitle')}
-      isAuthenticated={Boolean(session)}
-      userName={session?.user.name}
+      initialUser={initialUser}
       themeLabels={{
         darkLabel: t('themeDark'),
         lightLabel: t('themeLight'),
