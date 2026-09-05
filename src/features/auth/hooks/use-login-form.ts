@@ -1,11 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { useLocale, useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { currentUserQueryKey } from '@/entities/user';
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/shared/auth/auth-client';
 
@@ -17,6 +19,7 @@ export function useLoginForm() {
   const tValidation = useTranslations('auth.validation');
   const locale = useLocale();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const schema = useMemo(
     () =>
@@ -63,6 +66,7 @@ export function useLoginForm() {
       return;
     }
 
+    await queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
     router.replace('/dashboard');
     router.refresh();
   });

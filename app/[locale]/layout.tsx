@@ -13,6 +13,7 @@ import type { ReactNode } from 'react';
 
 import { routing } from '@/i18n/routing';
 import { getSsrHtmlThemeProps } from '@/shared/lib/get-ssr-html-theme-props';
+import { QueryProvider } from '@/shared/providers/query-provider';
 import { SystemSsrThemeCleanup } from '@/shared/providers/system-ssr-theme-cleanup';
 import { Toaster } from '@/shared/ui/sonner';
 import { AppHeader } from '@/widgets/app-header';
@@ -74,24 +75,26 @@ export default async function LocaleLayout({
     >
       <body className={geist.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            noScript
-            storage="hybrid"
-            initialTheme={initialTheme ?? undefined}
-          >
-            <SystemSsrThemeCleanup />
-            <div className="flex min-h-dvh flex-col">
-              <header className="sticky top-0 z-50">
-                <AppHeader />
-              </header>
-              <main className="flex-1">{children}</main>
-            </div>
-            <Toaster richColors closeButton />
-          </ThemeProvider>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              noScript
+              storage="hybrid"
+              initialTheme={initialTheme ?? undefined}
+            >
+              <SystemSsrThemeCleanup />
+              <div className="flex min-h-dvh flex-col">
+                <header className="sticky top-0 z-50">
+                  <AppHeader />
+                </header>
+                <main className="flex-1">{children}</main>
+              </div>
+              <Toaster richColors closeButton />
+            </ThemeProvider>
+          </QueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>
