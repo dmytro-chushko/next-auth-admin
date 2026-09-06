@@ -1,6 +1,6 @@
 import type { AuthUser } from '@/shared/auth/auth';
 
-import type { UserMe } from './contracts';
+import type { UserMe } from '../contracts';
 
 function normalizeRole(role: string | null | undefined): UserMe['role'] {
   return role === 'admin' ? 'admin' : 'user';

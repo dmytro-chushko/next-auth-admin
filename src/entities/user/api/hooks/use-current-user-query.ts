@@ -9,9 +9,7 @@ import {
   type UserMe,
 } from '@/shared/api';
 
-import { currentUserQueryKey } from './current-user-query-key';
-
-const CURRENT_USER_RETRY_COUNT = 5;
+import { currentUserQueryKey } from '../keys/current-user-query-key';
 
 type UseCurrentUserQueryOptions = {
   initialData?: UserMe | null;
@@ -38,17 +36,6 @@ export function useCurrentUserQuery(options: UseCurrentUserQueryOptions = {}) {
       }
 
       return result.body;
-    },
-    retry: (failureCount, error) => {
-      if (failureCount >= CURRENT_USER_RETRY_COUNT) {
-        return false;
-      }
-
-      if (error instanceof ApiRequestError && error.status === 401) {
-        return false;
-      }
-
-      return true;
     },
   });
 }

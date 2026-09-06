@@ -3,13 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocale, useTranslations } from 'next-intl';
 import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useRegisterEligibilityQuery } from '@/entities/user';
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/shared/auth/auth-client';
 
-import { checkRegisterEligibilityAction } from '../actions/check-register-eligibility';
 import { buildAuthCallbackUrl } from '../lib/build-auth-callback-url';
 import {
   createRegisterSchema,
@@ -45,9 +45,24 @@ export function useRegisterForm() {
     },
   });
 
+  const email = useWatch({ control: form.control, name: 'email' });
+  const eligibilityQuery = useRegisterEligibilityQuery({
+    email: email ?? '',
+    enabled: false,
+  });
+
   const handleSubmit = form.handleSubmit(async (values) => {
-    const email = values.email.toLowerCase();
-    const eligibility = await checkRegisterEligibilityAction(email);
+    const normalizedEmail = values.email.toLowerCase();
+
+    const eligibilityResult = await eligibilityQuery.refetch();
+
+    if (eligibilityResult.error || eligibilityResult.data == null) {
+      toast.error(tCommon('unknownError'));
+
+      return;
+    }
+
+    const eligibility = eligibilityResult.data;
 
     if (eligibility === 'oauth_only') {
       toast.error(t('oauthAccountExists'));
@@ -57,7 +72,7 @@ export function useRegisterForm() {
 
     if (eligibility === 'pending_verification') {
       router.replace(
-        `/verify-email/pending?email=${encodeURIComponent(email)}`,
+        `/verify-email/pending?email=${encodeURIComponent(normalizedEmail)}`,
       );
 
       return;
@@ -71,7 +86,7 @@ export function useRegisterForm() {
 
     const result = await authClient.signUp.email({
       name: values.name.trim(),
-      email,
+      email: normalizedEmail,
       password: values.password,
       callbackURL: buildAuthCallbackUrl(
         locale,
@@ -86,13 +101,15 @@ export function useRegisterForm() {
       return;
     }
 
-    router.replace(`/verify-email/pending?email=${encodeURIComponent(email)}`);
+    router.replace(
+      `/verify-email/pending?email=${encodeURIComponent(normalizedEmail)}`,
+    );
     router.refresh();
   });
 
   return {
     form,
     handleSubmit,
-    isPending: form.formState.isSubmitting,
+    isPending: form.formState.isSubmitting || eligibilityQuery.isFetching,
   };
 }
