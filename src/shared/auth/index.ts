@@ -15,10 +15,6 @@ export {
   type OAuthProviderId,
 } from './oauth-providers';
 export {
-  getRegisterEligibility,
-  type RegisterEligibilityStatus,
-} from './register-eligibility';
-export {
   getSession,
   redirectIfEmailVerified,
   requireAdmin,

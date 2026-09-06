@@ -1,7 +1,7 @@
 import { initClient } from '@ts-rest/core';
 
 import { contract } from './contracts';
-import { getApiBaseUrl } from './get-api-base-url';
+import { getApiBaseUrl } from './helpers/get-api-base-url';
 
 export const apiClient = initClient(contract, {
   baseUrl: getApiBaseUrl(),

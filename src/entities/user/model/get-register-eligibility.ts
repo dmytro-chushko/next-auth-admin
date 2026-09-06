@@ -1,10 +1,11 @@
+import type { RegisterEligibilityStatus } from '@/shared/api/contracts/schemas/register-eligibility';
+import { CREDENTIAL_PROVIDER_ID } from '@/shared/auth/oauth-providers';
 import { prisma } from '@/shared/db/prisma';
 
-import { CREDENTIAL_PROVIDER_ID } from './oauth-providers';
-
-export type RegisterEligibilityStatus =
-  'allowed' | 'oauth_only' | 'pending_verification' | 'already_registered';
-
+/**
+ * Server-only: used by `GET /api/register/eligibility`.
+ * Decides whether a password sign-up is allowed for this email.
+ */
 export async function getRegisterEligibility(
   email: string,
 ): Promise<RegisterEligibilityStatus> {

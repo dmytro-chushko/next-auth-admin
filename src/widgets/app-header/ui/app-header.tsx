@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-import { mapSessionUserToMe } from '@/shared/api/map-session-user';
+import { mapSessionUserToMe } from '@/shared/api/helpers/map-session-user';
 import { getSession } from '@/shared/auth/session';
 
 import { AppHeaderBar } from './app-header-bar';

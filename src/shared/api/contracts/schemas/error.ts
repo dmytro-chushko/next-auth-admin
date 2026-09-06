@@ -5,6 +5,10 @@ const errorResponseBase = z.object({
   error: z.string(),
 });
 
+export const badRequestResponse = errorResponseBase.extend({
+  status: z.literal(400),
+});
+
 export const unauthorizedResponse = errorResponseBase.extend({
   status: z.literal(401),
 });
