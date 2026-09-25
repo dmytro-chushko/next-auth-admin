@@ -14,6 +14,8 @@ model User {
   email         String
   emailVerified Boolean
   image         String?
+  /// Durable OAuth provider photo; restored when a custom Supabase avatar is deleted.
+  oauthImage    String?
   createdAt     DateTime
   updatedAt     DateTime
   role          String?
