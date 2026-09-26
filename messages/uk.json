@@ -34,7 +34,20 @@
     "greeting": "Привіт, {name}",
     "roleLabel": "Роль",
     "subtitle": "Ви авторизовані. Сесія зберігається через Better Auth cookie та Postgres.",
-    "backHome": "На головну"
+    "backHome": "На головну",
+    "avatar": {
+      "title": "Фото профілю",
+      "subtitle": "Завантажте JPEG, PNG або WebP до 5 МБ. Видалення власного фото відновлює OAuth-фото, якщо воно є.",
+      "upload": "Завантажити фото",
+      "uploading": "Завантаження…",
+      "remove": "Видалити власне фото",
+      "removing": "Видалення…",
+      "uploadSuccess": "Фото профілю оновлено.",
+      "deleteSuccess": "Власне фото видалено.",
+      "invalidType": "Використайте JPEG, PNG або WebP.",
+      "tooLarge": "Розмір зображення має бути не більше 5 МБ.",
+      "imageAlt": "Аватар користувача {name}"
+    }
   },
   "auth": {
     "common": {

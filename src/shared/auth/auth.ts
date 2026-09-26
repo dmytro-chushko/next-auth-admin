@@ -5,6 +5,10 @@ import { admin } from 'better-auth/plugins';
 
 import { prisma } from '@/shared/db/prisma';
 import { sendEmail } from '@/shared/email';
+import {
+  deleteManagedAvatarIfPresent,
+  isManagedUserAvatar,
+} from '@/shared/storage';
 
 import {
   CREDENTIAL_PROVIDER_ID,
@@ -63,11 +67,23 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
+  user: {
+    additionalFields: {
+      oauthImage: {
+        type: 'string',
+        required: false,
+        // Server-owned: synced from OAuth `image` in databaseHooks.
+        input: false,
+        returned: true,
+      },
+    },
+  },
   account: {
     accountLinking: {
       enabled: true,
       trustedProviders: ['google', 'github', CREDENTIAL_PROVIDER_ID],
       allowDifferentEmails: false,
+      updateUserInfoOnLink: true,
     },
   },
   emailAndPassword: {
@@ -80,6 +96,7 @@ export const auth = betterAuth({
       banned: false,
       banReason: null,
       banExpires: null,
+      oauthImage: null,
       ...additionalFields,
       id,
     }),
@@ -106,6 +123,67 @@ export const auth = betterAuth({
   },
   socialProviders: buildSocialProviders(),
   trustedOrigins: [process.env.BETTER_AUTH_URL ?? 'http://localhost:3000'],
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          const image =
+            typeof user.image === 'string' && user.image.length > 0
+              ? user.image
+              : null;
+
+          return {
+            data: {
+              ...user,
+              oauthImage: image,
+            },
+          };
+        },
+      },
+      update: {
+        before: async (data, ctx) => {
+          const next: Record<string, unknown> = { ...data };
+          const userId = ctx?.context?.session?.user?.id;
+          const incomingImage =
+            typeof next.image === 'string' && next.image.length > 0
+              ? next.image
+              : null;
+
+          if (incomingImage) {
+            next.oauthImage = incomingImage;
+
+            if (userId) {
+              const current = await prisma.user.findUnique({
+                where: { id: userId },
+                select: { image: true },
+              });
+
+              if (current && isManagedUserAvatar(current.image)) {
+                // Keep custom Supabase avatar; still refresh durable OAuth photo.
+                delete next.image;
+              }
+            }
+          }
+
+          return { data: next };
+        },
+      },
+      delete: {
+        before: async (user) => {
+          try {
+            await deleteManagedAvatarIfPresent(user.image);
+          } catch (error: unknown) {
+            console.error(
+              '[auth] failed to cleanup avatar on user delete',
+              error,
+            );
+          }
+
+          return true;
+        },
+      },
+    },
+  },
   plugins: [
     admin({
       defaultRole: 'user',
