@@ -21,6 +21,10 @@ function isAvatarContentType(value: string): value is AvatarContentType {
   return (AVATAR_ALLOWED_CONTENT_TYPES as readonly string[]).includes(value);
 }
 
+type UseAvatarSettingsOptions = {
+  initialUser: UserMe;
+};
+
 type UseAvatarSettingsResult = {
   user: UserMe | null | undefined;
   fileInputRef: RefObject<HTMLInputElement | null>;
@@ -33,13 +37,15 @@ type UseAvatarSettingsResult = {
   handleDelete: () => Promise<void>;
 };
 
-export function useAvatarSettings(): UseAvatarSettingsResult {
+export function useAvatarSettings({
+  initialUser,
+}: UseAvatarSettingsOptions): UseAvatarSettingsResult {
   const t = useTranslations('dashboard.avatar');
   const tCommon = useTranslations('auth.common');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  const { data: user } = useCurrentUserQuery();
+  const { data: user } = useCurrentUserQuery({ initialData: initialUser });
   const uploadMutation = useUploadAvatarMutation();
   const deleteMutation = useDeleteAvatarMutation();
 
