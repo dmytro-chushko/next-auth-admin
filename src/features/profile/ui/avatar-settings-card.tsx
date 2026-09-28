@@ -2,11 +2,16 @@
 
 import { useTranslations } from 'next-intl';
 
+import type { UserMe } from '@/shared/api';
 import { Button } from '@/shared/ui/button';
 
 import { useAvatarSettings } from '../hooks/use-avatar-settings';
 
-export function AvatarSettingsCard() {
+type AvatarSettingsCardProps = {
+  initialUser: UserMe;
+};
+
+export function AvatarSettingsCard({ initialUser }: AvatarSettingsCardProps) {
   const t = useTranslations('dashboard.avatar');
   const {
     user,
@@ -18,7 +23,7 @@ export function AvatarSettingsCard() {
     openFilePicker,
     handleFileChange,
     handleDelete,
-  } = useAvatarSettings();
+  } = useAvatarSettings({ initialUser });
 
   return (
     <section className="border-border flex flex-col gap-4 rounded-lg border p-4">
