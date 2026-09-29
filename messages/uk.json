@@ -17,10 +17,17 @@
     "mobileMenuTitle": "Налаштування",
     "mobileMenuThemeSection": "Тема",
     "mobileMenuLocaleSection": "Мова",
+    "mobileMenuAccountSection": "Акаунт",
     "signIn": "Увійти",
     "signUp": "Реєстрація",
     "signOut": "Вийти",
-    "signingOut": "Вихід…"
+    "signingOut": "Вихід…",
+    "profile": "Профіль",
+    "admin": "Адмін",
+    "logOut": "Вийти",
+    "logOutSuccess": "Ви вийшли з акаунта.",
+    "userMenuAriaLabel": "Меню акаунта",
+    "userMenuLoading": "Завантаження акаунта…"
   },
   "home": {
     "title": "Вітаємо",

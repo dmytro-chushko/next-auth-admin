@@ -2,6 +2,7 @@
 
 import { Settings } from 'lucide-react';
 
+import type { UserMe } from '@/shared/api';
 import { Button } from '@/shared/ui/button';
 import {
   Sheet,
@@ -30,18 +31,21 @@ type MobileMenuLabels = {
 type SectionLabels = {
   theme: string;
   locale: string;
+  account: string;
 };
 
 type MobileHeaderSheetProps = {
   themeLabels: ThemeLabels;
   mobileMenuLabels: MobileMenuLabels;
   sectionLabels: SectionLabels;
+  initialUser?: UserMe | null;
 };
 
 export function MobileHeaderSheet({
   themeLabels,
   mobileMenuLabels,
   sectionLabels,
+  initialUser = null,
 }: MobileHeaderSheetProps) {
   const { open, setOpen } = useMobileHeaderSheet();
   const handleNavigate = () => setOpen(false);
@@ -71,6 +75,7 @@ export function MobileHeaderSheet({
           layout="stack"
           themeLabels={themeLabels}
           sectionLabels={sectionLabels}
+          initialUser={initialUser}
           onNavigate={handleNavigate}
         />
       </SheetContent>

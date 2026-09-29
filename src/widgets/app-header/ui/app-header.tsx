@@ -28,6 +28,7 @@ export async function AppHeader() {
       sectionLabels={{
         theme: t('mobileMenuThemeSection'),
         locale: t('mobileMenuLocaleSection'),
+        account: t('mobileMenuAccountSection'),
       }}
     />
   );

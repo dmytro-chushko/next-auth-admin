@@ -17,10 +17,17 @@
     "mobileMenuTitle": "Settings",
     "mobileMenuThemeSection": "Theme",
     "mobileMenuLocaleSection": "Language",
+    "mobileMenuAccountSection": "Account",
     "signIn": "Sign in",
     "signUp": "Sign up",
     "signOut": "Sign out",
-    "signingOut": "Signing out…"
+    "signingOut": "Signing out…",
+    "profile": "Profile",
+    "admin": "Admin",
+    "logOut": "Log out",
+    "logOutSuccess": "Signed out.",
+    "userMenuAriaLabel": "Account menu",
+    "userMenuLoading": "Loading account…"
   },
   "home": {
     "title": "Welcome",

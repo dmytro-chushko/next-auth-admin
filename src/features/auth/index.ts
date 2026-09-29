@@ -1,6 +1,10 @@
+export { AuthHeaderAction } from './ui/auth-header-action';
 export { AuthNavActions } from './ui/auth-nav-actions';
 export { LoginForm } from './ui/login-form';
+export { LoginLinkButton } from './ui/login-link-button';
 export { OAuthButtons } from './ui/oauth-buttons';
 export { RegisterForm } from './ui/register-form';
+export { UserAccountFlatActions } from './ui/user-account-flat-actions';
+export { UserDropdown } from './ui/user-dropdown';
 export { VerifyEmailPanel } from './ui/verify-email-panel';
 export { VerifyEmailPendingForm } from './ui/verify-email-pending-form';

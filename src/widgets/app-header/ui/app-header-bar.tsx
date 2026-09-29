@@ -1,6 +1,5 @@
 'use client';
 
-import { AuthNavActions } from '@/features/auth';
 import type { UserMe } from '@/shared/api';
 
 import { HeaderActionsPanel } from './header-actions-panel';
@@ -22,6 +21,7 @@ type MobileMenuLabels = {
 type SectionLabels = {
   theme: string;
   locale: string;
+  account: string;
 };
 
 type AppHeaderBarProps = {
@@ -45,16 +45,17 @@ export function AppHeaderBar({
         {title}
       </p>
       <div className="flex shrink-0 items-center gap-2">
-        <AuthNavActions initialUser={initialUser} />
         <HeaderActionsPanel
           layout="row"
           themeLabels={themeLabels}
+          initialUser={initialUser}
           className="hidden md:flex"
         />
         <MobileHeaderSheet
           themeLabels={themeLabels}
           mobileMenuLabels={mobileMenuLabels}
           sectionLabels={sectionLabels}
+          initialUser={initialUser}
         />
       </div>
     </div>
