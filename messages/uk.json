@@ -57,6 +57,14 @@
     "emailStatus": "Статус email",
     "emailVerified": "Підтверджено",
     "emailNotVerified": "Не підтверджено",
+    "saveName": "Зберегти імʼя",
+    "savingName": "Збереження…",
+    "nameUpdateSuccess": "Імʼя оновлено.",
+    "validation": {
+      "nameRequired": "Імʼя обовʼязкове",
+      "nameMin": "Імʼя має містити щонайменше 2 символи",
+      "nameMax": "Імʼя має містити не більше 120 символів"
+    },
     "avatar": {
       "changePhoto": "Змінити фото",
       "uploading": "Завантаження…",

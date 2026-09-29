@@ -57,6 +57,14 @@
     "emailStatus": "Email status",
     "emailVerified": "Verified",
     "emailNotVerified": "Not verified",
+    "saveName": "Save name",
+    "savingName": "Saving…",
+    "nameUpdateSuccess": "Name updated.",
+    "validation": {
+      "nameRequired": "Name is required",
+      "nameMin": "Name must be at least 2 characters",
+      "nameMax": "Name must be at most 120 characters"
+    },
     "avatar": {
       "changePhoto": "Change photo",
       "uploading": "Uploading…",
