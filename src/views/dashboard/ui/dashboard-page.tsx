@@ -1,8 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-import { AvatarSettingsCard } from '@/features/profile';
 import { Link } from '@/i18n/navigation';
-import { mapSessionUserToMe } from '@/shared/api/helpers/map-session-user';
 import type { Session } from '@/shared/auth/auth';
 import { Button } from '@/shared/ui/button';
 
@@ -12,7 +10,6 @@ type DashboardPageProps = {
 
 export async function DashboardPage({ session }: DashboardPageProps) {
   const t = await getTranslations('dashboard');
-  const initialUser = mapSessionUserToMe(session.user);
 
   return (
     <section className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-12 sm:px-6">
@@ -28,9 +25,10 @@ export async function DashboardPage({ session }: DashboardPageProps) {
         <p className="text-muted-foreground text-sm">{t('subtitle')}</p>
       </div>
 
-      <AvatarSettingsCard initialUser={initialUser} />
-
-      <div>
+      <div className="flex flex-wrap gap-2">
+        <Button asChild variant="outline">
+          <Link href="/profile">{t('goProfile')}</Link>
+        </Button>
         <Button asChild variant="outline">
           <Link href="/">{t('backHome')}</Link>
         </Button>

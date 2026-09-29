@@ -41,19 +41,31 @@
     "greeting": "Привіт, {name}",
     "roleLabel": "Роль",
     "subtitle": "Ви авторизовані. Сесія зберігається через Better Auth cookie та Postgres.",
-    "backHome": "На головну",
+    "goProfile": "Відкрити профіль",
+    "backHome": "На головну"
+  },
+  "profile": {
+    "title": "Профіль",
+    "avatarSectionTitle": "Фото профілю",
+    "avatarSectionDescription": "Завантажте JPEG, PNG або WebP до 5 МБ. Видалення власного фото відновлює OAuth-фото, якщо воно є.",
+    "detailsSectionTitle": "Дані акаунта",
+    "name": "Імʼя",
+    "email": "Email",
+    "role": "Роль",
+    "roleAdmin": "Адмін",
+    "roleUser": "Користувач",
+    "emailStatus": "Статус email",
+    "emailVerified": "Підтверджено",
+    "emailNotVerified": "Не підтверджено",
     "avatar": {
-      "title": "Фото профілю",
-      "subtitle": "Завантажте JPEG, PNG або WebP до 5 МБ. Видалення власного фото відновлює OAuth-фото, якщо воно є.",
-      "upload": "Завантажити фото",
+      "changePhoto": "Змінити фото",
       "uploading": "Завантаження…",
-      "remove": "Видалити власне фото",
+      "removePhoto": "Видалити фото",
       "removing": "Видалення…",
       "uploadSuccess": "Фото профілю оновлено.",
       "deleteSuccess": "Власне фото видалено.",
       "invalidType": "Використайте JPEG, PNG або WebP.",
-      "tooLarge": "Розмір зображення має бути не більше 5 МБ.",
-      "imageAlt": "Аватар користувача {name}"
+      "tooLarge": "Розмір зображення має бути не більше 5 МБ."
     }
   },
   "auth": {

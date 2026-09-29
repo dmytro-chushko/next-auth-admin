@@ -40,7 +40,7 @@ type UseAvatarSettingsResult = {
 export function useAvatarSettings({
   initialUser,
 }: UseAvatarSettingsOptions): UseAvatarSettingsResult {
-  const t = useTranslations('dashboard.avatar');
+  const t = useTranslations('profile.avatar');
   const tCommon = useTranslations('auth.common');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);

@@ -41,19 +41,31 @@
     "greeting": "Hello, {name}",
     "roleLabel": "Role",
     "subtitle": "You are signed in. Session is backed by Better Auth cookies and Postgres.",
-    "backHome": "Back home",
+    "goProfile": "Open profile",
+    "backHome": "Back home"
+  },
+  "profile": {
+    "title": "Profile",
+    "avatarSectionTitle": "Profile photo",
+    "avatarSectionDescription": "Upload a JPEG, PNG, or WebP image up to 5 MB. Removing a custom photo restores your OAuth photo when available.",
+    "detailsSectionTitle": "Account details",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "roleAdmin": "Admin",
+    "roleUser": "User",
+    "emailStatus": "Email status",
+    "emailVerified": "Verified",
+    "emailNotVerified": "Not verified",
     "avatar": {
-      "title": "Profile photo",
-      "subtitle": "Upload a JPEG, PNG, or WebP image up to 5 MB. Removing a custom photo restores your OAuth photo when available.",
-      "upload": "Upload photo",
+      "changePhoto": "Change photo",
       "uploading": "Uploading…",
-      "remove": "Remove custom photo",
+      "removePhoto": "Remove photo",
       "removing": "Removing…",
       "uploadSuccess": "Profile photo updated.",
       "deleteSuccess": "Custom photo removed.",
       "invalidType": "Use a JPEG, PNG, or WebP image.",
-      "tooLarge": "Image must be 5 MB or smaller.",
-      "imageAlt": "Avatar for {name}"
+      "tooLarge": "Image must be 5 MB or smaller."
     }
   },
   "auth": {
