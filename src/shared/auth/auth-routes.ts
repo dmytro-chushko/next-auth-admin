@@ -6,6 +6,8 @@ export const PUBLIC_AUTH_PATHS = [
   '/register',
   '/verify-email',
   '/verify-email/pending',
+  '/forgot-password',
+  '/reset-password',
 ] as const;
 
 export function stripLocalePrefix(

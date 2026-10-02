@@ -28,6 +28,7 @@ export function useLoginForm() {
         emailInvalid: tValidation('emailInvalid'),
         passwordRequired: tValidation('passwordRequired'),
         passwordMin: tValidation('passwordMin'),
+        passwordMax: tValidation('passwordMax'),
       }),
     [tValidation],
   );

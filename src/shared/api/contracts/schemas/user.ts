@@ -3,6 +3,8 @@ import { z } from 'zod';
 /** Better Auth admin plugin roles (lowercase). */
 export const roleSchema = z.enum(['user', 'admin']);
 
+export const connectedProviderSchema = z.enum(['google', 'github']);
+
 export const userMeSchema = z.object({
   id: z.string(),
   email: z.email(),
@@ -12,10 +14,14 @@ export const userMeSchema = z.object({
   hasManagedAvatar: z.boolean(),
   role: roleSchema,
   emailVerified: z.boolean(),
+  createdAt: z.coerce.date(),
+  hasPassword: z.boolean(),
+  connectedProviders: z.array(connectedProviderSchema),
 });
 
 export type UserMe = z.infer<typeof userMeSchema>;
 export type Role = z.infer<typeof roleSchema>;
+export type ConnectedProvider = z.infer<typeof connectedProviderSchema>;
 
 export const avatarContentTypeSchema = z.enum([
   'image/jpeg',

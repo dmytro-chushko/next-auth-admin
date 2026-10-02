@@ -49,6 +49,8 @@
     "avatarSectionTitle": "Фото профілю",
     "avatarSectionDescription": "Завантажте JPEG, PNG або WebP до 5 МБ. Видалення власного фото відновлює OAuth-фото, якщо воно є.",
     "detailsSectionTitle": "Дані акаунта",
+    "passwordSectionTitle": "Пароль",
+    "passwordSectionDescription": "Змініть пароль або встановіть його, якщо входили через Google чи GitHub.",
     "name": "Імʼя",
     "email": "Email",
     "role": "Роль",
@@ -57,6 +59,8 @@
     "emailStatus": "Статус email",
     "emailVerified": "Підтверджено",
     "emailNotVerified": "Не підтверджено",
+    "memberSince": "З нами з",
+    "cancel": "Скасувати",
     "saveName": "Зберегти імʼя",
     "savingName": "Збереження…",
     "nameUpdateSuccess": "Імʼя оновлено.",
@@ -64,6 +68,30 @@
       "nameRequired": "Імʼя обовʼязкове",
       "nameMin": "Імʼя має містити щонайменше 2 символи",
       "nameMax": "Імʼя має містити не більше 120 символів"
+    },
+    "connectedAccounts": {
+      "title": "Підключені акаунти",
+      "none": "Немає підключених соціальних акаунтів.",
+      "google": "Google",
+      "github": "GitHub"
+    },
+    "password": {
+      "changePassword": "Змінити пароль",
+      "setPassword": "Встановити пароль",
+      "oauthSetPasswordHint": "Ви увійшли через соціальний акаунт. Встановіть пароль, щоб також входити за email.",
+      "currentPassword": "Поточний пароль",
+      "newPassword": "Новий пароль",
+      "confirmPassword": "Підтвердьте новий пароль",
+      "savePassword": "Зберегти пароль",
+      "savingPassword": "Збереження…",
+      "updateSuccess": "Пароль оновлено.",
+      "forgotCurrentPassword": "Забули поточний пароль?",
+      "errors": {
+        "currentPasswordRequired": "Поточний пароль обовʼязковий",
+        "passwordMin": "Пароль має містити щонайменше 8 символів",
+        "passwordMax": "Пароль має містити не більше 128 символів",
+        "mismatch": "Паролі не збігаються"
+      }
     },
     "avatar": {
       "changePhoto": "Змінити фото",
@@ -91,6 +119,7 @@
       "emailInvalid": "Введіть коректний email",
       "passwordRequired": "Вкажіть пароль",
       "passwordMin": "Пароль має містити щонайменше 8 символів",
+      "passwordMax": "Пароль має містити не більше 128 символів",
       "nameRequired": "Вкажіть імʼя",
       "nameMin": "Імʼя має містити щонайменше 2 символи"
     },
@@ -101,10 +130,40 @@
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Пароль",
       "passwordPlaceholder": "Ваш пароль",
+      "forgotPassword": "Забули пароль?",
       "submit": "Увійти",
       "submitting": "Входимо…",
       "noAccount": "Ще немає акаунту?",
       "signUp": "Створити акаунт"
+    },
+    "forgotPassword": {
+      "title": "Забули пароль",
+      "subtitle": "Вкажіть email — ми надішлемо посилання для скидання, якщо акаунт існує.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Надіслати посилання",
+      "submitting": "Надсилаємо…",
+      "success": "Якщо акаунт існує, ми надіслали посилання для скидання.",
+      "submittedHint": "Перевірте скриньку та папку «Спам».",
+      "backToLogin": "Повернутися до входу"
+    },
+    "resetPassword": {
+      "title": "Скидання пароля",
+      "subtitle": "Оберіть новий пароль для акаунта.",
+      "newPasswordLabel": "Новий пароль",
+      "newPasswordPlaceholder": "Щонайменше 8 символів",
+      "confirmPasswordLabel": "Підтвердьте новий пароль",
+      "confirmPasswordPlaceholder": "Повторіть новий пароль",
+      "submit": "Скинути пароль",
+      "submitting": "Скидаємо…",
+      "success": "Пароль оновлено. Тепер можете увійти.",
+      "missingToken": "Посилання для скидання неповне. Запросіть нове.",
+      "invalidToken": "Посилання недійсне або прострочене. Запросіть нове.",
+      "backToForgot": "Запросити нове посилання",
+      "errors": {
+        "mismatch": "Паролі не збігаються",
+        "tokenRequired": "Немає токена скидання"
+      }
     },
     "register": {
       "title": "Реєстрація",
