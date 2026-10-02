@@ -1,5 +1,4 @@
 import type { UserMe } from '@/shared/api/contracts';
-import { mapUserToMe } from '@/shared/api/helpers/map-session-user';
 import { prisma } from '@/shared/db/prisma';
 import {
   assertUploadedAvatar,
@@ -9,13 +8,7 @@ import {
   verifyAvatarConfirmToken,
 } from '@/shared/storage';
 
-async function getUserMeById(userId: string): Promise<UserMe> {
-  const user = await prisma.user.findUniqueOrThrow({
-    where: { id: userId },
-  });
-
-  return mapUserToMe(user);
-}
+import { getUserMeById } from './get-user-me';
 
 export async function confirmUserAvatarUpload(
   userId: string,

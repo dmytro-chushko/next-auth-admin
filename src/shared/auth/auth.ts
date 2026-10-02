@@ -14,6 +14,7 @@ import {
   CREDENTIAL_PROVIDER_ID,
   type OAuthProviderId,
 } from './oauth-providers';
+import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from './password-policy';
 
 function buildSocialProviders(): Partial<
   Record<
@@ -89,6 +90,9 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    minPasswordLength: PASSWORD_MIN_LENGTH,
+    maxPasswordLength: PASSWORD_MAX_LENGTH,
+    revokeSessionsOnPasswordReset: true,
     // Admin plugin fields must match real sign-up shape for enumeration protection.
     customSyntheticUser: ({ coreFields, additionalFields, id }) => ({
       ...coreFields,
@@ -100,6 +104,16 @@ export const auth = betterAuth({
       ...additionalFields,
       id,
     }),
+    sendResetPassword: async ({ user, url }) => {
+      void sendEmail({
+        to: user.email,
+        subject: 'Reset your password',
+        text: `Click the link to reset your password: ${url}\n\nIf you did not request this, you can ignore this email.`,
+        html: `<p>Click the link to reset your password:</p><p><a href="${url}">${url}</a></p><p>If you did not request this, you can ignore this email.</p>`,
+      }).catch((error: unknown) => {
+        console.error('[auth] failed to send reset password email', error);
+      });
+    },
   },
   emailVerification: {
     sendOnSignUp: true,

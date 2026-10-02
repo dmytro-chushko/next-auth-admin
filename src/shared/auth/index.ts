@@ -1,3 +1,9 @@
+export {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  createPasswordFieldSchema,
+  createNewPasswordPairSchema,
+} from './password-policy';
 export { auth, type AuthUser, type Session } from './auth';
 export {
   isAdminPath,

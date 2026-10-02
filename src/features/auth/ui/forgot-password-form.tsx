@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
-import type { OAuthProviderId } from '@/shared/auth/oauth-providers';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -15,17 +14,12 @@ import {
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
-import { useLoginForm } from '../hooks/use-login-form';
+import { useForgotPasswordForm } from '../hooks/use-forgot-password-form';
 
-import { OAuthButtons } from './oauth-buttons';
-
-type LoginFormProps = {
-  oauthProviders: OAuthProviderId[];
-};
-
-export function LoginForm({ oauthProviders }: LoginFormProps) {
-  const t = useTranslations('auth.login');
-  const { form, handleSubmit, isPending } = useLoginForm();
+export function ForgotPasswordForm() {
+  const t = useTranslations('auth.forgotPassword');
+  const { form, handleSubmit, isPending, isSubmitted } =
+    useForgotPasswordForm();
 
   return (
     <Form {...form}>
@@ -40,8 +34,6 @@ export function LoginForm({ oauthProviders }: LoginFormProps) {
           </h1>
           <p className="text-muted-foreground text-sm">{t('subtitle')}</p>
         </div>
-
-        <OAuthButtons providers={oauthProviders} />
 
         <FormField
           control={form.control}
@@ -62,44 +54,20 @@ export function LoginForm({ oauthProviders }: LoginFormProps) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex items-center justify-between gap-2">
-                <FormLabel>{t('passwordLabel')}</FormLabel>
-                <Link
-                  href="/forgot-password"
-                  className="text-muted-foreground hover:text-foreground text-xs underline underline-offset-4"
-                >
-                  {t('forgotPassword')}
-                </Link>
-              </div>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder={t('passwordPlaceholder')}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} aria-busy={isPending}>
           {isPending ? t('submitting') : t('submit')}
         </Button>
 
+        {isSubmitted ? (
+          <p className="text-muted-foreground text-sm">{t('submittedHint')}</p>
+        ) : null}
+
         <p className="text-muted-foreground text-sm">
-          {t('noAccount')}{' '}
           <Link
-            href="/register"
+            href="/login"
             className="text-foreground underline underline-offset-4"
           >
-            {t('signUp')}
+            {t('backToLogin')}
           </Link>
         </p>
       </form>
