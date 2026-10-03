@@ -1,4 +1,4 @@
-import { mapSessionUserToMe } from '@/shared/api/helpers/map-session-user';
+import { getUserMeById } from '@/entities/user/model/get-user-me';
 import { getSession } from '@/shared/auth/session';
 
 /**
@@ -16,7 +16,9 @@ export async function GET() {
       );
     }
 
-    return Response.json(mapSessionUserToMe(session.user), { status: 200 });
+    const user = await getUserMeById(session.user.id);
+
+    return Response.json(user, { status: 200 });
   } catch (error: unknown) {
     console.error('[api/users/me] failed', error);
 

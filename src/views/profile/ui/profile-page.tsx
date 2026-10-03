@@ -1,13 +1,13 @@
+import { getUserMeById } from '@/entities/user/model/get-user-me';
 import { ProfileView } from '@/features/profile';
-import { mapSessionUserToMe } from '@/shared/api/helpers/map-session-user';
 import type { Session } from '@/shared/auth/auth';
 
 type ProfilePageProps = {
   session: Session;
 };
 
-export function ProfilePage({ session }: ProfilePageProps) {
-  const initialUser = mapSessionUserToMe(session.user);
+export async function ProfilePage({ session }: ProfilePageProps) {
+  const initialUser = await getUserMeById(session.user.id);
 
   return <ProfileView initialUser={initialUser} />;
 }

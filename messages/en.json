@@ -49,6 +49,8 @@
     "avatarSectionTitle": "Profile photo",
     "avatarSectionDescription": "Upload a JPEG, PNG, or WebP image up to 5 MB. Removing a custom photo restores your OAuth photo when available.",
     "detailsSectionTitle": "Account details",
+    "passwordSectionTitle": "Password",
+    "passwordSectionDescription": "Change your password or set one if you signed in with Google or GitHub.",
     "name": "Name",
     "email": "Email",
     "role": "Role",
@@ -57,6 +59,8 @@
     "emailStatus": "Email status",
     "emailVerified": "Verified",
     "emailNotVerified": "Not verified",
+    "memberSince": "Member since",
+    "cancel": "Cancel",
     "saveName": "Save name",
     "savingName": "Saving…",
     "nameUpdateSuccess": "Name updated.",
@@ -64,6 +68,30 @@
       "nameRequired": "Name is required",
       "nameMin": "Name must be at least 2 characters",
       "nameMax": "Name must be at most 120 characters"
+    },
+    "connectedAccounts": {
+      "title": "Connected accounts",
+      "none": "No connected social accounts.",
+      "google": "Google",
+      "github": "GitHub"
+    },
+    "password": {
+      "changePassword": "Change password",
+      "setPassword": "Set a password",
+      "oauthSetPasswordHint": "You signed in with a social account. Set a password to also sign in with email.",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm new password",
+      "savePassword": "Save password",
+      "savingPassword": "Saving…",
+      "updateSuccess": "Password updated.",
+      "forgotCurrentPassword": "Forgot your current password?",
+      "errors": {
+        "currentPasswordRequired": "Current password is required",
+        "passwordMin": "Password must be at least 8 characters",
+        "passwordMax": "Password must be at most 128 characters",
+        "mismatch": "Passwords do not match"
+      }
     },
     "avatar": {
       "changePhoto": "Change photo",
@@ -91,6 +119,7 @@
       "emailInvalid": "Enter a valid email address",
       "passwordRequired": "Password is required",
       "passwordMin": "Password must be at least 8 characters",
+      "passwordMax": "Password must be at most 128 characters",
       "nameRequired": "Name is required",
       "nameMin": "Name must be at least 2 characters"
     },
@@ -101,10 +130,40 @@
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "Your password",
+      "forgotPassword": "Forgot password?",
       "submit": "Sign in",
       "submitting": "Signing in…",
       "noAccount": "No account yet?",
       "signUp": "Create account"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email and we will send a reset link if an account exists.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Send reset link",
+      "submitting": "Sending…",
+      "success": "If an account exists, we sent a reset link.",
+      "submittedHint": "Check your inbox and spam folder for the reset email.",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "subtitle": "Choose a new password for your account.",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "At least 8 characters",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Repeat new password",
+      "submit": "Reset password",
+      "submitting": "Resetting…",
+      "success": "Password updated. You can sign in now.",
+      "missingToken": "This reset link is incomplete. Request a new one.",
+      "invalidToken": "This reset link is invalid or has expired. Request a new one.",
+      "backToForgot": "Request a new reset link",
+      "errors": {
+        "mismatch": "Passwords do not match",
+        "tokenRequired": "Reset token is missing"
+      }
     },
     "register": {
       "title": "Create account",

@@ -18,7 +18,12 @@ export type { UserContract } from './user.contract';
 export { registrationContract } from './registration.contract';
 export type { RegistrationContract } from './registration.contract';
 export { userMeSchema, roleSchema, AVATAR_MAX_BYTES } from './schemas/user';
-export type { UserMe, Role, AvatarUploadIntent } from './schemas/user';
+export type {
+  UserMe,
+  Role,
+  ConnectedProvider,
+  AvatarUploadIntent,
+} from './schemas/user';
 export {
   badRequestResponse,
   unauthorizedResponse,

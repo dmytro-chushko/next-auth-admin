@@ -30,6 +30,7 @@ export function useRegisterForm() {
         emailInvalid: tValidation('emailInvalid'),
         passwordRequired: tValidation('passwordRequired'),
         passwordMin: tValidation('passwordMin'),
+        passwordMax: tValidation('passwordMax'),
         nameRequired: tValidation('nameRequired'),
         nameMin: tValidation('nameMin'),
       }),
