@@ -7,6 +7,7 @@ import { useProfileView } from '../hooks/use-profile-view';
 
 import { AvatarEditor } from './avatar-editor';
 import { ConnectedAccountsList } from './connected-accounts-list';
+import { ProfileDeleteAccountSection } from './profile-delete-account-section';
 import { ProfileNameForm } from './profile-name-form';
 import { ProfilePasswordSection } from './profile-password-section';
 import { ProfileSettingsSection } from './profile-settings-section';
@@ -87,6 +88,18 @@ export function ProfileView({ initialUser }: ProfileViewProps) {
               onExpanded={scrollPasswordCardIntoView}
             />
           </div>
+        </ProfileSettingsSection>
+
+        <ProfileSettingsSection
+          variant="destructive"
+          title={t('dangerZone.title')}
+          description={t('dangerZone.subtitle')}
+        >
+          <ProfileDeleteAccountSection
+            email={user.email}
+            hasPassword={user.hasPassword}
+            isAdmin={user.role === 'admin'}
+          />
         </ProfileSettingsSection>
       </div>
     </div>
