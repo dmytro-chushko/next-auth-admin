@@ -1,5 +1,6 @@
 import { prismaAdapter } from '@better-auth/prisma-adapter';
 import { betterAuth } from 'better-auth';
+import { APIError } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
 import { admin } from 'better-auth/plugins';
 
@@ -76,6 +77,21 @@ export const auth = betterAuth({
         // Server-owned: synced from OAuth `image` in databaseHooks.
         input: false,
         returned: true,
+      },
+    },
+    deleteUser: {
+      enabled: true,
+      beforeDelete: async (user) => {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: { role: true },
+        });
+
+        if (dbUser?.role === 'admin') {
+          throw new APIError('BAD_REQUEST', {
+            message: 'Administrator accounts cannot be self-deleted',
+          });
+        }
       },
     },
   },

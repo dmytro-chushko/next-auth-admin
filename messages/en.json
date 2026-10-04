@@ -102,6 +102,34 @@
       "deleteSuccess": "Custom photo removed.",
       "invalidType": "Use a JPEG, PNG, or WebP image.",
       "tooLarge": "Image must be 5 MB or smaller."
+    },
+    "dangerZone": {
+      "title": "Danger zone",
+      "subtitle": "Irreversible actions for your account.",
+      "description": "Permanently delete your account and all associated data. This cannot be undone.",
+      "consequences": {
+        "profile": "Your profile, name, and photo will be removed.",
+        "sessions": "All active sessions will be signed out.",
+        "connectedAccounts": "Google and GitHub connections will be removed."
+      },
+      "deleteAccount": "Delete account",
+      "dialogTitle": "Delete your account?",
+      "dialogDescription": "This action is permanent. Type your email to confirm.",
+      "emailConfirmationLabel": "Confirm your email",
+      "emailConfirmationHint": "Enter your account email exactly as shown above.",
+      "currentPassword": "Current password",
+      "oauthReauthHint": "You signed in with Google or GitHub. Email confirmation is required. If deletion fails, sign out and sign in again, then retry.",
+      "confirmDelete": "Delete my account",
+      "deleting": "Deleting…",
+      "deleteSuccess": "Your account has been deleted.",
+      "deleteError": "Could not delete account. Please try again.",
+      "adminCannotDelete": "Administrator accounts cannot be self-deleted. Ask another admin to remove this account if needed.",
+      "errors": {
+        "emailMismatch": "Email does not match your account.",
+        "currentPasswordRequired": "Current password is required.",
+        "invalidPassword": "Current password is incorrect.",
+        "freshSessionRequired": "Please sign out and sign in again, then retry deleting your account."
+      }
     }
   },
   "auth": {
