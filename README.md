@@ -18,6 +18,17 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) (redirects to `/en` or `/uk`).
 
+### API docs (Scalar)
+
+Domain **ts-rest** contracts are documented with Scalar:
+
+- UI: [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
+- OpenAPI JSON: [http://localhost:3000/api/docs/openapi.json](http://localhost:3000/api/docs/openapi.json)
+
+Covered today: `GET /api/users/me`, avatar upload/confirm/delete, and `GET /api/register/eligibility`.
+
+**Better Auth** protocol routes (`/api/auth/*` — sign-in, OAuth, password, sessions, self-delete, etc.) are **not** in this OpenAPI document. See [Better Auth docs](https://www.better-auth.com/docs). Session-protected domain calls need a browser session cookie (`better-auth.session_token`); log in in the same origin, then use Scalar “Try it”.
+
 Production build locally:
 
 ```bash
@@ -50,5 +61,6 @@ npm run start
 - Tailwind CSS v4 + shadcn (new-york / zinc)
 - next-intl (`en` / `uk`, `localePrefix: always`)
 - `@teispace/next-themes` (light / dark / system)
-- Prisma 7 + PostgreSQL + Better Auth (foundation; auth UI in later stages)
+- Prisma 7 + PostgreSQL + Better Auth
+- ts-rest + Zod domain API; Scalar OpenAPI at `/api/docs`
 - ESLint + Prettier + Husky pre-commit (`npm run precheck`)

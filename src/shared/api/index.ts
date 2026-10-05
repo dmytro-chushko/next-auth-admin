@@ -17,3 +17,4 @@ export type {
 export { getApiBaseUrl } from './helpers/get-api-base-url';
 export { getApiErrorMessage } from './helpers/get-api-error-message';
 export { mapSessionUserToMe } from './helpers/map-session-user';
+export { buildOpenApiDocument } from './openapi';
