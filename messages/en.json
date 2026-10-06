@@ -44,6 +44,26 @@
     "goProfile": "Open profile",
     "backHome": "Back home"
   },
+  "admin": {
+    "nav": {
+      "section": "Admin",
+      "overview": "Overview",
+      "users": "Users",
+      "auditLogs": "Audit logs"
+    },
+    "overview": {
+      "title": "Overview",
+      "description": "Administrator workspace. User management and audit logs will expand here."
+    },
+    "users": {
+      "title": "Users",
+      "description": "User list, roles, and session actions will be added in the next admin increment."
+    },
+    "auditLogs": {
+      "title": "Audit logs",
+      "description": "Audit history will be available after the audit log model is added."
+    }
+  },
   "profile": {
     "title": "Profile",
     "avatarSectionTitle": "Profile photo",

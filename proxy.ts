@@ -40,6 +40,7 @@ export default function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
 
   // Cookie presence only — do not redirect auth pages here (stale cookie → loop).
+  // /admin is in PROTECTED_PATHS; role enforcement is in admin layout (requireAdmin).
   if (isProtectedPath(pathnameWithoutLocale) && !sessionCookie) {
     return NextResponse.redirect(buildLocalizedUrl(request, '/login'));
   }
