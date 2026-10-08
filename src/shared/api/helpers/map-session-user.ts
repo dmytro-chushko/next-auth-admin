@@ -8,7 +8,7 @@ import { isManagedUserAvatar } from '@/shared/storage';
 
 import type { ConnectedProvider, UserMe } from '../contracts';
 
-function normalizeRole(role: string | null | undefined): UserMe['role'] {
+export function normalizeRole(role: string | null | undefined): UserMe['role'] {
   return role === 'admin' ? 'admin' : 'user';
 }
 
@@ -16,7 +16,7 @@ function isOAuthProviderId(value: string): value is OAuthProviderId {
   return (OAUTH_PROVIDER_IDS as readonly string[]).includes(value);
 }
 
-type AccountSource = {
+export type AccountSource = {
   providerId: string;
   password?: string | null;
 };
@@ -32,7 +32,7 @@ type UserMeSource = {
   accounts?: AccountSource[];
 };
 
-function resolveConnectedProviders(
+export function resolveConnectedProviders(
   accounts: AccountSource[] | undefined,
 ): ConnectedProvider[] {
   if (!accounts?.length) {
@@ -50,7 +50,9 @@ function resolveConnectedProviders(
   return [...providers];
 }
 
-function resolveHasPassword(accounts: AccountSource[] | undefined): boolean {
+export function resolveHasPassword(
+  accounts: AccountSource[] | undefined,
+): boolean {
   if (!accounts?.length) {
     return false;
   }

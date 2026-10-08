@@ -57,7 +57,118 @@
     },
     "users": {
       "title": "Users",
-      "description": "User list, roles, and session actions will be added in the next admin increment."
+      "description": "Browse accounts, change roles, and revoke active sessions.",
+      "empty": "No users match the current filters.",
+      "clearFilters": "Clear filters",
+      "loadError": "Could not load users.",
+      "retry": "Try again",
+      "searchPlaceholder": "Search by name or email",
+      "searchAriaLabel": "Search users",
+      "filtersButton": "Filters",
+      "filtersButtonWithCount": "Filters ({count})",
+      "filtersTitle": "Filters",
+      "filtersDone": "Done",
+      "viewUser": "View",
+      "viewUserAriaLabel": "View {email}",
+      "roleUser": "User",
+      "roleAdmin": "Admin",
+      "verifiedYes": "Verified",
+      "verifiedNo": "Unverified",
+      "columns": {
+        "user": "User",
+        "role": "Role",
+        "verified": "Email",
+        "auth": "Sign-in",
+        "joined": "Joined",
+        "actions": "Actions"
+      },
+      "filters": {
+        "role": "Role",
+        "roleAll": "All roles",
+        "roleUser": "User",
+        "roleAdmin": "Admin",
+        "verified": "Email status",
+        "verifiedAll": "Any email status",
+        "verifiedYes": "Verified",
+        "verifiedNo": "Unverified"
+      },
+      "auth": {
+        "google": "Google",
+        "github": "GitHub",
+        "password": "Password",
+        "none": "No sign-in methods"
+      },
+      "sort": {
+        "asc": "sorted ascending",
+        "desc": "sorted descending",
+        "none": "not sorted"
+      },
+      "pagination": {
+        "page": "Page {page} of {totalPages}",
+        "previous": "Previous",
+        "next": "Next",
+        "previousAriaLabel": "Go to previous page",
+        "nextAriaLabel": "Go to next page"
+      }
+    },
+    "userDetail": {
+      "backToUsers": "Back to users",
+      "loadError": "Could not load this user.",
+      "retry": "Try again",
+      "profile": {
+        "title": "Profile",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "verified": "Email status",
+        "memberSince": "Member since",
+        "updatedAt": "Last updated",
+        "noName": "Unnamed user"
+      },
+      "auth": {
+        "title": "Sign-in methods",
+        "providers": "Connected accounts",
+        "password": "Password",
+        "hasPassword": "Password set",
+        "noPassword": "No password",
+        "none": "No connected accounts"
+      },
+      "sessions": {
+        "title": "Sessions",
+        "empty": "This user has no sessions.",
+        "userAgent": "Device",
+        "ip": "IP address",
+        "createdAt": "Started",
+        "expiresAt": "Expires",
+        "status": "Status",
+        "active": "Active",
+        "expired": "Expired",
+        "unknownAgent": "Unknown device"
+      }
+    },
+    "actions": {
+      "accessTitle": "Access",
+      "accessDescription": "Control what this user can reach in the admin area.",
+      "changeRole": "Role",
+      "saveRole": "Save role",
+      "savingRole": "Saving…",
+      "roleUpdateSuccess": "Role updated.",
+      "dangerZoneTitle": "Danger zone",
+      "dangerZoneDescription": "These actions take effect immediately.",
+      "revokeSessions": "Revoke sessions",
+      "revokeSessionsDescription": "Sign this user out of every device.",
+      "revokeSessionsUnavailable": "This user has no active sessions.",
+      "revokeSessionsDialogTitle": "Revoke all sessions?",
+      "revokeSessionsDialogDescription": "Every active session for this account will be signed out immediately.",
+      "revokeSessionsConfirm": "Revoke sessions",
+      "revokeSessionsPending": "Revoking…",
+      "revokeSessionsSuccess": "Sessions revoked.",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "cannotChangeOwnRole": "You cannot change your own role.",
+      "cannotDemoteLastAdmin": "The last administrator cannot be demoted."
     },
     "auditLogs": {
       "title": "Audit logs",
