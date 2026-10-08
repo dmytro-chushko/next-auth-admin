@@ -44,6 +44,137 @@
     "goProfile": "Відкрити профіль",
     "backHome": "На головну"
   },
+  "admin": {
+    "nav": {
+      "section": "Адмін",
+      "overview": "Огляд",
+      "users": "Користувачі",
+      "auditLogs": "Журнал аудиту"
+    },
+    "overview": {
+      "title": "Огляд",
+      "description": "Робочий простір адміністратора. Керування користувачами та аудит з’являться тут."
+    },
+    "users": {
+      "title": "Користувачі",
+      "description": "Переглядайте акаунти, змінюйте ролі та завершуйте активні сесії.",
+      "empty": "Немає користувачів за поточними фільтрами.",
+      "clearFilters": "Скинути фільтри",
+      "loadError": "Не вдалося завантажити користувачів.",
+      "retry": "Спробувати ще раз",
+      "searchPlaceholder": "Пошук за іменем або email",
+      "searchAriaLabel": "Пошук користувачів",
+      "filtersButton": "Фільтри",
+      "filtersButtonWithCount": "Фільтри ({count})",
+      "filtersTitle": "Фільтри",
+      "filtersDone": "Готово",
+      "viewUser": "Переглянути",
+      "viewUserAriaLabel": "Переглянути {email}",
+      "roleUser": "Користувач",
+      "roleAdmin": "Адмін",
+      "verifiedYes": "Підтверджений",
+      "verifiedNo": "Не підтверджений",
+      "columns": {
+        "user": "Користувач",
+        "role": "Роль",
+        "verified": "Email",
+        "auth": "Вхід",
+        "joined": "Приєднався",
+        "actions": "Дії"
+      },
+      "filters": {
+        "role": "Роль",
+        "roleAll": "Усі ролі",
+        "roleUser": "Користувач",
+        "roleAdmin": "Адмін",
+        "verified": "Статус email",
+        "verifiedAll": "Будь-який статус email",
+        "verifiedYes": "Підтверджений",
+        "verifiedNo": "Не підтверджений"
+      },
+      "auth": {
+        "google": "Google",
+        "github": "GitHub",
+        "password": "Пароль",
+        "none": "Немає способів входу"
+      },
+      "sort": {
+        "asc": "сортування за зростанням",
+        "desc": "сортування за спаданням",
+        "none": "без сортування"
+      },
+      "pagination": {
+        "page": "Сторінка {page} з {totalPages}",
+        "previous": "Назад",
+        "next": "Далі",
+        "previousAriaLabel": "Перейти до попередньої сторінки",
+        "nextAriaLabel": "Перейти до наступної сторінки"
+      }
+    },
+    "userDetail": {
+      "backToUsers": "До списку користувачів",
+      "loadError": "Не вдалося завантажити користувача.",
+      "retry": "Спробувати ще раз",
+      "profile": {
+        "title": "Профіль",
+        "name": "Ім’я",
+        "email": "Email",
+        "role": "Роль",
+        "verified": "Статус email",
+        "memberSince": "З нами з",
+        "updatedAt": "Останнє оновлення",
+        "noName": "Без імені"
+      },
+      "auth": {
+        "title": "Способи входу",
+        "providers": "Підключені акаунти",
+        "password": "Пароль",
+        "hasPassword": "Пароль встановлено",
+        "noPassword": "Пароля немає",
+        "none": "Немає підключених акаунтів"
+      },
+      "sessions": {
+        "title": "Сесії",
+        "empty": "У цього користувача немає сесій.",
+        "userAgent": "Пристрій",
+        "ip": "IP-адреса",
+        "createdAt": "Початок",
+        "expiresAt": "Діє до",
+        "status": "Статус",
+        "active": "Активна",
+        "expired": "Завершена",
+        "unknownAgent": "Невідомий пристрій"
+      }
+    },
+    "actions": {
+      "accessTitle": "Доступ",
+      "accessDescription": "Керуйте тим, що цей користувач бачить в адмінці.",
+      "changeRole": "Роль",
+      "saveRole": "Зберегти роль",
+      "savingRole": "Збереження…",
+      "roleUpdateSuccess": "Роль оновлено.",
+      "dangerZoneTitle": "Небезпечна зона",
+      "dangerZoneDescription": "Ці дії застосовуються одразу.",
+      "revokeSessions": "Завершити сесії",
+      "revokeSessionsDescription": "Вийти з акаунта на всіх пристроях.",
+      "revokeSessionsUnavailable": "У цього користувача немає активних сесій.",
+      "revokeSessionsDialogTitle": "Завершити всі сесії?",
+      "revokeSessionsDialogDescription": "Усі активні сесії цього акаунта буде завершено негайно.",
+      "revokeSessionsConfirm": "Завершити сесії",
+      "revokeSessionsPending": "Завершення…",
+      "revokeSessionsSuccess": "Сесії завершено.",
+      "cancel": "Скасувати"
+    },
+    "errors": {
+      "generic": "Щось пішло не так. Спробуйте ще раз.",
+      "cannotChangeOwnRole": "Ви не можете змінити власну роль.",
+      "cannotDemoteLastAdmin": "Останнього адміністратора не можна понизити."
+    },
+    "auditLogs": {
+      "title": "Журнал аудиту",
+      "description": "Історія аудиту буде доступна після додавання моделі журналу."
+    }
+  },
   "profile": {
     "title": "Профіль",
     "avatarSectionTitle": "Фото профілю",

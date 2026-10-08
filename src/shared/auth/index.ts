@@ -5,6 +5,7 @@ export {
   createNewPasswordPairSchema,
 } from './password-policy';
 export { auth, type AuthUser, type Session } from './auth';
+export { requireAdminApiSession } from './api-session';
 export {
   isAdminPath,
   isProtectedPath,
