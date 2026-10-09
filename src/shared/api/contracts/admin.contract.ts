@@ -66,6 +66,22 @@ export const adminContract = c.router(
       summary: 'Update user role (admin)',
     },
 
+    deleteUser: {
+      method: 'DELETE',
+      path: '/users/:id',
+      pathParams: adminUserIdParamsSchema,
+      body: c.noBody(),
+      responses: {
+        204: c.noBody(),
+        400: badRequestResponse,
+        401: unauthorizedResponse,
+        403: forbiddenResponse,
+        404: notFoundResponse,
+        500: internalServerErrorResponse,
+      },
+      summary: 'Delete user (admin)',
+    },
+
     revokeUserSessions: {
       method: 'DELETE',
       path: '/users/:id/sessions',

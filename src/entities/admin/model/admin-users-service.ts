@@ -14,6 +14,7 @@ import {
   type AccountSource,
 } from '@/shared/api/helpers/map-session-user';
 import { prisma } from '@/shared/db/prisma';
+import { deleteManagedAvatarIfPresent } from '@/shared/storage';
 
 import { AdminUsersError } from './admin-users-error';
 
@@ -167,16 +168,10 @@ export async function updateAdminUserRole({
       normalizeRole(target.role) === 'admin' && role !== 'admin';
 
     if (isDemotingAdmin) {
-      // Count inside the same transaction so concurrent demotions cannot
-      // both pass when only one admin would remain.
-      const adminCount = await tx.user.count({ where: { role: 'admin' } });
-
-      if (adminCount <= 1) {
-        throw new AdminUsersError(
-          400,
-          ADMIN_USERS_ERROR_MESSAGES.CANNOT_DEMOTE_LAST_ADMIN,
-        );
-      }
+      await assertMoreThanOneAdmin(
+        tx,
+        ADMIN_USERS_ERROR_MESSAGES.CANNOT_DEMOTE_LAST_ADMIN,
+      );
     }
 
     await tx.user.update({
@@ -201,4 +196,70 @@ export async function revokeAdminUserSessions(userId: string): Promise<number> {
   const { count } = await prisma.session.deleteMany({ where: { userId } });
 
   return count;
+}
+
+type DeleteAdminUserInput = {
+  actorId: string;
+  userId: string;
+};
+
+/**
+ * Deletes a user. Sessions and accounts cascade in the database.
+ * Managed avatar files are removed after the row is gone.
+ */
+export async function deleteAdminUser({
+  actorId,
+  userId,
+}: DeleteAdminUserInput): Promise<void> {
+  if (actorId === userId) {
+    throw new AdminUsersError(
+      400,
+      ADMIN_USERS_ERROR_MESSAGES.CANNOT_DELETE_SELF,
+    );
+  }
+
+  const deleted = await prisma.$transaction(async (tx) => {
+    const target = await tx.user.findUnique({
+      where: { id: userId },
+      select: { id: true, role: true, image: true },
+    });
+
+    if (!target) {
+      throw new AdminUsersError(404, 'User not found');
+    }
+
+    if (normalizeRole(target.role) === 'admin') {
+      await assertMoreThanOneAdmin(
+        tx,
+        ADMIN_USERS_ERROR_MESSAGES.CANNOT_DELETE_LAST_ADMIN,
+      );
+    }
+
+    await tx.user.delete({ where: { id: userId } });
+
+    return target;
+  });
+
+  try {
+    await deleteManagedAvatarIfPresent(deleted.image);
+  } catch (error: unknown) {
+    console.error('[admin] failed to cleanup avatar on user delete', error);
+  }
+}
+
+/**
+ * Locks every admin row, then rejects the change when only one admin remains.
+ * The lock stops two concurrent demotes or deletes from both succeeding.
+ */
+async function assertMoreThanOneAdmin(
+  tx: Prisma.TransactionClient,
+  message: string,
+): Promise<void> {
+  const admins = await tx.$queryRaw<Array<{ id: string }>>`
+    SELECT id FROM "user" WHERE role = 'admin' ORDER BY id FOR UPDATE
+  `;
+
+  if (admins.length <= 1) {
+    throw new AdminUsersError(400, message);
+  }
 }

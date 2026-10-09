@@ -1,5 +1,6 @@
 import { AdminUsersError } from '@/entities/admin/model/admin-users-error';
 import {
+  deleteAdminUser,
   getAdminUserDetail,
   updateAdminUserRole,
 } from '@/entities/admin/model/admin-users-service';
@@ -76,5 +77,30 @@ export async function PATCH(request: Request, { params }: RouteContext) {
     return Response.json(user, { status: 200 });
   } catch (error: unknown) {
     return handleFailure('PATCH', error);
+  }
+}
+
+/**
+ * DELETE /api/admin/users/:id
+ * Implements `adminContract.deleteUser`.
+ */
+export async function DELETE(_request: Request, { params }: RouteContext) {
+  try {
+    const sessionOrResponse = await requireAdminApiSession();
+
+    if (sessionOrResponse instanceof Response) {
+      return sessionOrResponse;
+    }
+
+    const { id } = await params;
+
+    await deleteAdminUser({
+      actorId: sessionOrResponse.user.id,
+      userId: id,
+    });
+
+    return new Response(null, { status: 204 });
+  } catch (error: unknown) {
+    return handleFailure('DELETE', error);
   }
 }

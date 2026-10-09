@@ -163,12 +163,23 @@
       "revokeSessionsConfirm": "Revoke sessions",
       "revokeSessionsPending": "Revoking…",
       "revokeSessionsSuccess": "Sessions revoked.",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "deleteUser": "Delete user",
+      "deleteUserDescription": "Permanently delete this account, including sessions and linked sign-in methods.",
+      "deleteConfirmTitle": "Delete this user?",
+      "deleteConfirmDescription": "This cannot be undone. Sessions and linked accounts are removed with the user.",
+      "deleteConfirmEmailLabel": "Type the email to confirm",
+      "deleteConfirmEmailPlaceholder": "name@example.com",
+      "deleteConfirmEmailMismatch": "Email does not match.",
+      "deletingUser": "Deleting…",
+      "deleteUserSuccess": "User deleted."
     },
     "errors": {
       "generic": "Something went wrong. Please try again.",
       "cannotChangeOwnRole": "You cannot change your own role.",
-      "cannotDemoteLastAdmin": "The last administrator cannot be demoted."
+      "cannotDemoteLastAdmin": "The last administrator cannot be demoted.",
+      "cannotDeleteSelf": "You cannot delete your own account from the admin area.",
+      "cannotDeleteLastAdmin": "The last administrator cannot be deleted."
     },
     "auditLogs": {
       "title": "Audit logs",
