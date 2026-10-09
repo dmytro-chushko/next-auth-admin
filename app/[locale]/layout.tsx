@@ -16,6 +16,7 @@ import { getSsrHtmlThemeProps } from '@/shared/lib/get-ssr-html-theme-props';
 import { ModalProvider } from '@/shared/providers/modal-provider';
 import { QueryProvider } from '@/shared/providers/query-provider';
 import { SystemSsrThemeCleanup } from '@/shared/providers/system-ssr-theme-cleanup';
+import { SidebarProvider } from '@/shared/ui/sidebar';
 import { Toaster } from '@/shared/ui/sonner';
 import { AppHeader } from '@/widgets/app-header';
 
@@ -89,10 +90,14 @@ export default async function LocaleLayout({
               <ModalProvider>
                 <SystemSsrThemeCleanup />
                 <div className="flex min-h-dvh flex-col">
-                  <header className="sticky top-0 z-50">
-                    <AppHeader />
-                  </header>
-                  <main className="flex-1">{children}</main>
+                  <SidebarProvider className="flex min-h-dvh flex-col">
+                    <header className="sticky top-0 z-50">
+                      <AppHeader />
+                    </header>
+                    <main className="flex min-h-0 flex-1 flex-col">
+                      {children}
+                    </main>
+                  </SidebarProvider>
                 </div>
                 <Toaster richColors closeButton />
               </ModalProvider>

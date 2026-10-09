@@ -1,8 +1,13 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
+  --header-tablet-height: calc(--spacing(14));
+  --header-mobile-height: calc(--spacing(18));
   --radius: 0.625rem;
+  --header-height: 3.5rem;
   --background: oklch(0.982 0.006 92);
   --foreground: oklch(0.195 0.014 260);
   --card: oklch(0.992 0.004 92);
