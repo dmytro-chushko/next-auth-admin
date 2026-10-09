@@ -7,6 +7,7 @@ import {
 import { adminUpdateUserRoleBodySchema } from '@/shared/api/contracts/schemas/admin';
 import { apiErrorResponse } from '@/shared/api/helpers/api-error-response';
 import { requireAdminApiSession } from '@/shared/auth/api-session';
+import { getAuditRequestContextFromHeaders } from '@/shared/auth/request-audit-context';
 
 type RouteContext = {
   params: Promise<{ id: string }>;
@@ -25,9 +26,9 @@ function handleFailure(scope: string, error: unknown): Response {
 /**
  * GET /api/admin/users/:id — implements `adminContract.getUser`.
  */
-export async function GET(_request: Request, { params }: RouteContext) {
+export async function GET(request: Request, { params }: RouteContext) {
   try {
-    const sessionOrResponse = await requireAdminApiSession();
+    const sessionOrResponse = await requireAdminApiSession(request);
 
     if (sessionOrResponse instanceof Response) {
       return sessionOrResponse;
@@ -47,7 +48,7 @@ export async function GET(_request: Request, { params }: RouteContext) {
  */
 export async function PATCH(request: Request, { params }: RouteContext) {
   try {
-    const sessionOrResponse = await requireAdminApiSession();
+    const sessionOrResponse = await requireAdminApiSession(request);
 
     if (sessionOrResponse instanceof Response) {
       return sessionOrResponse;
@@ -68,10 +69,12 @@ export async function PATCH(request: Request, { params }: RouteContext) {
       return apiErrorResponse(400, 'Invalid role payload');
     }
 
+    const auditContext = getAuditRequestContextFromHeaders(request.headers);
     const user = await updateAdminUserRole({
       actorId: sessionOrResponse.user.id,
       userId: id,
       role: parsed.data.role,
+      ...auditContext,
     });
 
     return Response.json(user, { status: 200 });
@@ -84,19 +87,21 @@ export async function PATCH(request: Request, { params }: RouteContext) {
  * DELETE /api/admin/users/:id
  * Implements `adminContract.deleteUser`.
  */
-export async function DELETE(_request: Request, { params }: RouteContext) {
+export async function DELETE(request: Request, { params }: RouteContext) {
   try {
-    const sessionOrResponse = await requireAdminApiSession();
+    const sessionOrResponse = await requireAdminApiSession(request);
 
     if (sessionOrResponse instanceof Response) {
       return sessionOrResponse;
     }
 
     const { id } = await params;
+    const auditContext = getAuditRequestContextFromHeaders(request.headers);
 
     await deleteAdminUser({
       actorId: sessionOrResponse.user.id,
       userId: id,
+      ...auditContext,
     });
 
     return new Response(null, { status: 204 });

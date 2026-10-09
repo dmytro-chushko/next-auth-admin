@@ -1,3 +1,4 @@
+import { recordAuditLog } from '@/entities/audit-log';
 import { Prisma } from '@/generated/prisma/client';
 import {
   ADMIN_USERS_ERROR_MESSAGES,
@@ -13,6 +14,7 @@ import {
   resolveHasPassword,
   type AccountSource,
 } from '@/shared/api/helpers/map-session-user';
+import type { RequestAuditContext } from '@/shared/auth/request-audit-context';
 import { prisma } from '@/shared/db/prisma';
 import { deleteManagedAvatarIfPresent } from '@/shared/storage';
 
@@ -136,16 +138,20 @@ export async function getAdminUserDetail(
   };
 }
 
+type AdminMutationAuditContext = RequestAuditContext;
+
 type UpdateAdminUserRoleInput = {
   actorId: string;
   userId: string;
   role: Role;
-};
+} & AdminMutationAuditContext;
 
 export async function updateAdminUserRole({
   actorId,
   userId,
   role,
+  ipAddress,
+  userAgent,
 }: UpdateAdminUserRoleInput): Promise<AdminUserDetail> {
   if (actorId === userId) {
     throw new AdminUsersError(
@@ -153,6 +159,8 @@ export async function updateAdminUserRole({
       ADMIN_USERS_ERROR_MESSAGES.CANNOT_CHANGE_OWN_ROLE,
     );
   }
+
+  let fromRole: Role = 'user';
 
   await prisma.$transaction(async (tx) => {
     const target = await tx.user.findUnique({
@@ -164,8 +172,8 @@ export async function updateAdminUserRole({
       throw new AdminUsersError(404, 'User not found');
     }
 
-    const isDemotingAdmin =
-      normalizeRole(target.role) === 'admin' && role !== 'admin';
+    fromRole = normalizeRole(target.role);
+    const isDemotingAdmin = fromRole === 'admin' && role !== 'admin';
 
     if (isDemotingAdmin) {
       await assertMoreThanOneAdmin(
@@ -180,20 +188,58 @@ export async function updateAdminUserRole({
     });
   });
 
+  if (fromRole !== role) {
+    await recordAuditLog({
+      action: 'USER_ROLE_CHANGED',
+      actorId,
+      targetUserId: userId,
+      success: true,
+      ipAddress,
+      userAgent,
+      metadata: {
+        fromRole,
+        toRole: role,
+      },
+    });
+  }
+
   return getAdminUserDetail(userId);
 }
 
-export async function revokeAdminUserSessions(userId: string): Promise<number> {
-  const exists = await prisma.user.findUnique({
+type RevokeAdminUserSessionsInput = {
+  actorId: string;
+  userId: string;
+} & AdminMutationAuditContext;
+
+export async function revokeAdminUserSessions({
+  actorId,
+  userId,
+  ipAddress,
+  userAgent,
+}: RevokeAdminUserSessionsInput): Promise<number> {
+  const target = await prisma.user.findUnique({
     where: { id: userId },
-    select: { id: true },
+    select: { id: true, email: true },
   });
 
-  if (!exists) {
+  if (!target) {
     throw new AdminUsersError(404, 'User not found');
   }
 
   const { count } = await prisma.session.deleteMany({ where: { userId } });
+
+  await recordAuditLog({
+    action: 'SESSIONS_REVOKED',
+    actorId,
+    targetUserId: userId,
+    success: true,
+    ipAddress,
+    userAgent,
+    metadata: {
+      email: target.email,
+      revokedCount: count,
+    },
+  });
 
   return count;
 }
@@ -201,7 +247,7 @@ export async function revokeAdminUserSessions(userId: string): Promise<number> {
 type DeleteAdminUserInput = {
   actorId: string;
   userId: string;
-};
+} & AdminMutationAuditContext;
 
 /**
  * Deletes a user. Sessions and accounts cascade in the database.
@@ -210,6 +256,8 @@ type DeleteAdminUserInput = {
 export async function deleteAdminUser({
   actorId,
   userId,
+  ipAddress,
+  userAgent,
 }: DeleteAdminUserInput): Promise<void> {
   if (actorId === userId) {
     throw new AdminUsersError(
@@ -221,7 +269,7 @@ export async function deleteAdminUser({
   const deleted = await prisma.$transaction(async (tx) => {
     const target = await tx.user.findUnique({
       where: { id: userId },
-      select: { id: true, role: true, image: true },
+      select: { id: true, email: true, role: true, image: true },
     });
 
     if (!target) {
@@ -238,6 +286,21 @@ export async function deleteAdminUser({
     await tx.user.delete({ where: { id: userId } });
 
     return target;
+  });
+
+  await recordAuditLog({
+    action: 'USER_DELETED',
+    actorId,
+    // Target row is gone; keep identity in metadata only.
+    targetUserId: null,
+    success: true,
+    ipAddress,
+    userAgent,
+    metadata: {
+      email: deleted.email,
+      role: normalizeRole(deleted.role),
+      userId,
+    },
   });
 
   try {
