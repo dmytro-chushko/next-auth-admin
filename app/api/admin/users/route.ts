@@ -8,7 +8,7 @@ import { requireAdminApiSession } from '@/shared/auth/api-session';
  */
 export async function GET(request: Request) {
   try {
-    const sessionOrResponse = await requireAdminApiSession();
+    const sessionOrResponse = await requireAdminApiSession(request);
 
     if (sessionOrResponse instanceof Response) {
       return sessionOrResponse;

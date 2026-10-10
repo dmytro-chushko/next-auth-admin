@@ -163,12 +163,23 @@
       "revokeSessionsConfirm": "Завершити сесії",
       "revokeSessionsPending": "Завершення…",
       "revokeSessionsSuccess": "Сесії завершено.",
-      "cancel": "Скасувати"
+      "cancel": "Скасувати",
+      "deleteUser": "Видалити користувача",
+      "deleteUserDescription": "Назавжди видалити цей акаунт разом із сесіями та привʼязаними способами входу.",
+      "deleteConfirmTitle": "Видалити цього користувача?",
+      "deleteConfirmDescription": "Цю дію не можна скасувати. Сесії та привʼязані акаунти видаляються разом із користувачем.",
+      "deleteConfirmEmailLabel": "Введіть email для підтвердження",
+      "deleteConfirmEmailPlaceholder": "name@example.com",
+      "deleteConfirmEmailMismatch": "Email не збігається.",
+      "deletingUser": "Видалення…",
+      "deleteUserSuccess": "Користувача видалено."
     },
     "errors": {
       "generic": "Щось пішло не так. Спробуйте ще раз.",
       "cannotChangeOwnRole": "Ви не можете змінити власну роль.",
-      "cannotDemoteLastAdmin": "Останнього адміністратора не можна понизити."
+      "cannotDemoteLastAdmin": "Останнього адміністратора не можна понизити.",
+      "cannotDeleteSelf": "Ви не можете видалити власний акаунт з адмінки.",
+      "cannotDeleteLastAdmin": "Останнього адміністратора не можна видалити."
     },
     "auditLogs": {
       "title": "Журнал аудиту",

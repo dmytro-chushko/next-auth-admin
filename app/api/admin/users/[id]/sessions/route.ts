@@ -2,6 +2,7 @@ import { AdminUsersError } from '@/entities/admin/model/admin-users-error';
 import { revokeAdminUserSessions } from '@/entities/admin/model/admin-users-service';
 import { apiErrorResponse } from '@/shared/api/helpers/api-error-response';
 import { requireAdminApiSession } from '@/shared/auth/api-session';
+import { getAuditRequestContextFromHeaders } from '@/shared/auth/request-audit-context';
 
 type RouteContext = {
   params: Promise<{ id: string }>;
@@ -10,16 +11,21 @@ type RouteContext = {
 /**
  * DELETE /api/admin/users/:id/sessions — implements `adminContract.revokeUserSessions`.
  */
-export async function DELETE(_request: Request, { params }: RouteContext) {
+export async function DELETE(request: Request, { params }: RouteContext) {
   try {
-    const sessionOrResponse = await requireAdminApiSession();
+    const sessionOrResponse = await requireAdminApiSession(request);
 
     if (sessionOrResponse instanceof Response) {
       return sessionOrResponse;
     }
 
     const { id } = await params;
-    const revokedCount = await revokeAdminUserSessions(id);
+    const auditContext = getAuditRequestContextFromHeaders(request.headers);
+    const revokedCount = await revokeAdminUserSessions({
+      actorId: sessionOrResponse.user.id,
+      userId: id,
+      ...auditContext,
+    });
 
     return Response.json({ revokedCount }, { status: 200 });
   } catch (error: unknown) {

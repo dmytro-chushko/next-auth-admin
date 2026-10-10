@@ -12,6 +12,10 @@ import {
 } from '@/shared/storage';
 
 import {
+  auditAuthAfterHook,
+  recordAccountSelfDeletedAudit,
+} from './audit-auth-hooks';
+import {
   CREDENTIAL_PROVIDER_ID,
   type OAuthProviderId,
 } from './oauth-providers';
@@ -153,6 +157,9 @@ export const auth = betterAuth({
   },
   socialProviders: buildSocialProviders(),
   trustedOrigins: [process.env.BETTER_AUTH_URL ?? 'http://localhost:3000'],
+  hooks: {
+    after: auditAuthAfterHook,
+  },
   databaseHooks: {
     user: {
       create: {
@@ -210,6 +217,12 @@ export const auth = betterAuth({
           }
 
           return true;
+        },
+        after: async (user) => {
+          await recordAccountSelfDeletedAudit({
+            id: user.id,
+            email: user.email,
+          });
         },
       },
     },

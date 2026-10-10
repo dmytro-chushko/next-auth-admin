@@ -1,8 +1,10 @@
 import { headers } from 'next/headers';
 import { getLocale } from 'next-intl/server';
 
+import { recordAuditLog } from '@/entities/audit-log';
 import { redirect } from '@/i18n/navigation';
 import { auth, type Session } from '@/shared/auth/auth';
+import { getAuditRequestContext } from '@/shared/auth/request-audit-context';
 
 function verifyEmailPendingHref(email: string): string {
   const params = new URLSearchParams({ email });
@@ -43,6 +45,19 @@ export async function requireAdmin(): Promise<Session> {
   if (session.user.role === 'admin') {
     return session;
   }
+
+  const requestContext = await getAuditRequestContext();
+
+  await recordAuditLog({
+    action: 'ADMIN_ACCESS_DENIED',
+    actorId: session.user.id,
+    success: false,
+    ...requestContext,
+    metadata: {
+      role: session.user.role,
+      via: 'page',
+    },
+  });
 
   redirect({ href: '/dashboard', locale: await getLocale() });
 

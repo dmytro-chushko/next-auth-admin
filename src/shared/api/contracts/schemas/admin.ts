@@ -13,6 +13,8 @@ export const ADMIN_USERS_SEARCH_MAX_LENGTH = 200;
 export const ADMIN_USERS_ERROR_MESSAGES = {
   CANNOT_CHANGE_OWN_ROLE: 'Administrators cannot change their own role',
   CANNOT_DEMOTE_LAST_ADMIN: 'The last administrator cannot be demoted',
+  CANNOT_DELETE_SELF: 'Administrators cannot delete their own account',
+  CANNOT_DELETE_LAST_ADMIN: 'The last administrator cannot be deleted',
 } as const;
 
 export const adminUserListItemSchema = z.object({
