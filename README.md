@@ -8,13 +8,13 @@ Use this repository as a **base for new apps and pet projects**: clone it, renam
 
 ## What you get
 
-| Area | Capabilities |
-| --- | --- |
-| **Auth** | Email/password, email verification (Resend), Google + GitHub OAuth, DB sessions, forgot/reset password, account linking |
-| **Profile** | Name, avatar (Supabase Storage), set/change password, session-aware header menu |
-| **Admin** | Overview KPIs, users list/detail, change role, revoke sessions, delete user (last-admin protected), audit logs |
-| **API** | Better Auth at `/api/auth/*` + domain Route Handlers with **ts-rest** + **Zod**; OpenAPI → **Scalar** at `/api/docs` |
-| **UI / DX** | Tailwind v4, shadcn/ui, next-intl (`en` / `uk`), light/dark/system theme, Husky pre-commit, security worm-scan |
+| Area        | Capabilities                                                                                                            |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Auth**    | Email/password, email verification (Resend), Google + GitHub OAuth, DB sessions, forgot/reset password, account linking |
+| **Profile** | Name, avatar (Supabase Storage), set/change password, session-aware header menu                                         |
+| **Admin**   | Overview KPIs, users list/detail, change role, revoke sessions, delete user (last-admin protected), audit logs          |
+| **API**     | Better Auth at `/api/auth/*` + domain Route Handlers with **ts-rest** + **Zod**; OpenAPI → **Scalar** at `/api/docs`    |
+| **UI / DX** | Tailwind v4, shadcn/ui, next-intl (`en` / `uk`), light/dark/system theme, Husky pre-commit, security worm-scan          |
 
 Roles: `user` | `admin` (stored on the user; admin UI and `/admin/*` are admin-only).
 
@@ -22,20 +22,20 @@ Roles: `user` | `admin` (stored on the user; admin UI and `/admin/*` are admin-o
 
 ## Stack
 
-| Layer | Choice |
-| --- | --- |
-| Runtime | Node.js **24+**, npm (`package-lock.json`) |
-| App | Next.js **16**, React **19**, TypeScript (strict) |
-| Styling | Tailwind CSS **v4**, shadcn (new-york / zinc), Radix |
-| Auth | [Better Auth](https://www.better-auth.com/docs) + Prisma adapter |
-| Data | Prisma **7** + PostgreSQL (`pg` driver adapter) |
-| Contracts | `@ts-rest/core` + Zod **4** |
-| Client data | TanStack Query + TanStack Table |
-| i18n | next-intl (`localePrefix: always`) |
-| Email | Resend |
-| Avatars | Supabase Storage (service role, server-only) |
-| Docs | `@ts-rest/open-api` → Scalar |
-| Quality | ESLint, Prettier, Husky, `scripts/security/worm-scan.sh` |
+| Layer       | Choice                                                           |
+| ----------- | ---------------------------------------------------------------- |
+| Runtime     | Node.js **24+**, npm (`package-lock.json`)                       |
+| App         | Next.js **16**, React **19**, TypeScript (strict)                |
+| Styling     | Tailwind CSS **v4**, shadcn (new-york / zinc), Radix             |
+| Auth        | [Better Auth](https://www.better-auth.com/docs) + Prisma adapter |
+| Data        | Prisma **7** + PostgreSQL (`pg` driver adapter)                  |
+| Contracts   | `@ts-rest/core` + Zod **4**                                      |
+| Client data | TanStack Query + TanStack Table                                  |
+| i18n        | next-intl (`localePrefix: always`)                               |
+| Email       | Resend                                                           |
+| Avatars     | Supabase Storage (service role, server-only)                     |
+| Docs        | `@ts-rest/open-api` → Scalar                                     |
+| Quality     | ESLint, Prettier, Husky, `scripts/security/worm-scan.sh`         |
 
 ---
 
@@ -121,18 +121,18 @@ npm run start
 
 Copy from [`.env.example`](.env.example). Never commit `.env`.
 
-| Variable | Purpose |
-| --- | --- |
-| `DATABASE_URL` | PostgreSQL connection string |
-| `BETTER_AUTH_SECRET` | Auth signing secret (long random string) |
-| `BETTER_AUTH_URL` | Public app origin, e.g. `http://localhost:3000` |
-| `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` | Prisma seed admin |
-| `SEED_USER_EMAIL` / `SEED_USER_PASSWORD` | Prisma seed user |
-| `RESEND_API_KEY` / `EMAIL_FROM` | Transactional email |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth |
-| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub OAuth |
-| `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | Avatar storage (server only) |
-| `SUPABASE_STORAGE_BUCKET` / `SUPABASE_AVATARS_PREFIX` | Bucket + object prefix |
+| Variable                                              | Purpose                                         |
+| ----------------------------------------------------- | ----------------------------------------------- |
+| `DATABASE_URL`                                        | PostgreSQL connection string                    |
+| `BETTER_AUTH_SECRET`                                  | Auth signing secret (long random string)        |
+| `BETTER_AUTH_URL`                                     | Public app origin, e.g. `http://localhost:3000` |
+| `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`            | Prisma seed admin                               |
+| `SEED_USER_EMAIL` / `SEED_USER_PASSWORD`              | Prisma seed user                                |
+| `RESEND_API_KEY` / `EMAIL_FROM`                       | Transactional email                             |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`           | Google OAuth                                    |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`           | GitHub OAuth                                    |
+| `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY`          | Avatar storage (server only)                    |
+| `SUPABASE_STORAGE_BUCKET` / `SUPABASE_AVATARS_PREFIX` | Bucket + object prefix                          |
 
 OAuth callback URLs:
 
@@ -145,36 +145,36 @@ OAuth callback URLs:
 
 ## Scripts
 
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Dev server (`predev` runs security scan) |
-| `npm run build` | `prisma generate` + Next production build |
-| `npm run start` | Serve production build |
-| `npm run lint` | ESLint (zero warnings allowed) |
-| `npm run format` / `format:check` | Prettier write / check |
-| `npm run fix` | Format + ESLint `--fix` |
-| `npm run precheck` | Format check + lint (Husky pre-commit) |
-| `npm run check-types` | `tsc --noEmit` |
-| `npm run db:generate` | Prisma Client |
-| `npm run db:migrate` | `prisma migrate dev` |
-| `npm run db:seed` | Seed admin + user |
-| `npm run db:studio` | Prisma Studio |
-| `npm run security:scan` | Local worm/malware heuristics scan |
+| Script                            | Description                               |
+| --------------------------------- | ----------------------------------------- |
+| `npm run dev`                     | Dev server (`predev` runs security scan)  |
+| `npm run build`                   | `prisma generate` + Next production build |
+| `npm run start`                   | Serve production build                    |
+| `npm run lint`                    | ESLint (zero warnings allowed)            |
+| `npm run format` / `format:check` | Prettier write / check                    |
+| `npm run fix`                     | Format + ESLint `--fix`                   |
+| `npm run precheck`                | Format check + lint (Husky pre-commit)    |
+| `npm run check-types`             | `tsc --noEmit`                            |
+| `npm run db:generate`             | Prisma Client                             |
+| `npm run db:migrate`              | `prisma migrate dev`                      |
+| `npm run db:seed`                 | Seed admin + user                         |
+| `npm run db:studio`               | Prisma Studio                             |
+| `npm run security:scan`           | Local worm/malware heuristics scan        |
 
 ---
 
 ## Important URLs
 
-| URL | Description |
-| --- | --- |
-| `/en`, `/uk` | Locales (always prefixed) |
-| `/en/login`, `/en/register` | Auth |
-| `/en/dashboard`, `/en/profile` | Authenticated app |
-| `/en/admin` | Admin overview KPIs |
-| `/en/admin/users`, `/en/admin/users/[id]` | User management |
-| `/en/admin/audit-logs` | Security event history |
-| `/api/docs` | Scalar UI for domain OpenAPI |
-| `/api/docs/openapi.json` | OpenAPI document |
+| URL                                       | Description                  |
+| ----------------------------------------- | ---------------------------- |
+| `/en`, `/uk`                              | Locales (always prefixed)    |
+| `/en/login`, `/en/register`               | Auth                         |
+| `/en/dashboard`, `/en/profile`            | Authenticated app            |
+| `/en/admin`                               | Admin overview KPIs          |
+| `/en/admin/users`, `/en/admin/users/[id]` | User management              |
+| `/en/admin/audit-logs`                    | Security event history       |
+| `/api/docs`                               | Scalar UI for domain OpenAPI |
+| `/api/docs/openapi.json`                  | OpenAPI document             |
 
 ---
 
